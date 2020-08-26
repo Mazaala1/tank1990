@@ -1,6 +1,6 @@
 //TODO
-import { Bullet } from './bullet.js';
-import { Renderer } from './renderer.js';
+import { Bullet } from "./bullet.js";
+import { Renderer } from "./renderer.js";
 export class Tank {
   constructor(y, x, direction) {
     this.size = 32;
@@ -12,9 +12,10 @@ export class Tank {
       this.size,
       y * this.size,
       x * this.size,
-      'tank'
+      "tank"
     );
     this.movingInterval = null;
+    this.body.anchor.set(0.5, 0.5);
   }
 
   // TODO
@@ -27,6 +28,11 @@ export class Tank {
 
   move = (direction) => {
     // check
+    let arc = Math.PI * 2 * 0.25;
+    let dirs = [];
+    for (let i = 0; i < 4; i++) {
+      dirs.push(arc * i);
+    }
     let self = this;
     this.movingInterval = setInterval(function () {
       // console.log(this);
@@ -34,12 +40,16 @@ export class Tank {
         dirY = [-0.1, 0, 0.1, 0];
       self.y += dirY[direction];
       self.x += dirX[direction];
+      // console.log(arc);
       self.body.x = self.x * self.size;
       self.body.y = self.y * self.size;
-    }, 50);
+      console.log(dirs);
+      self.body.rotation += dirs[direction] - dirs[self.direction];
+      self.direction = direction;
+    }, 10);
   };
   stop = () => {
-    alert('open1');
+    alert("open1");
     clearInterval(this.movingInterval);
   };
   // pickBoost(); // todo
