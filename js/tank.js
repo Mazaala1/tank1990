@@ -1,6 +1,6 @@
-const cellSize = 20; // may change later
-const width = 30,
-  height = 30;
+const cellSize = 32; // may change later
+const width = 13,
+  height = 13;
 const app = new PIXI.Application({
   width: width * cellSize,
   height: height * cellSize,
