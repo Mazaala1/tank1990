@@ -1,0 +1,26 @@
+{
+  "name": "tank1990",
+  "version": "1.0.0",
+  "description": "Tank1990",
+  "main": "index.js",
+  "dependencies": {
+    "pixi.js": "^5.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MNGLMazaalai/tank1990.git"
+  },
+  "keywords": [
+    "Tank"
+  ],
+  "author": "Bat-Erdene",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MNGLMazaalai/tank1990/issues"
+  },
+  "homepage": "https://github.com/MNGLMazaalai/tank1990#readme"
+}

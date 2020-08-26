@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+}
+canvas {
+  border: #393939 5pt solid;
+  margin-left: calc(50% - 200pt);
+  margin-top: 5vh;
+}
