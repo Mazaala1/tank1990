@@ -55,9 +55,11 @@ export class Tank {
       if ((direction - self.direction + 4) % 2 == 1) {
         console.log("here", self.x);
         // console.log(self.x, self.x | 2);
-        self.x = (self.x * 2 + 1) | 0.5;
+        self.x = (self.x * 2 + 0.5) | 0.5;
+        self.y = (self.y * 2 + 0.5) | 0.5;
+        self.y /= 2;
         self.x /= 2;
-        console.log(self.x);
+        // console.log(self.x);
       }
       self.body.x = self.x * self.size;
       self.body.y = self.y * self.size;
