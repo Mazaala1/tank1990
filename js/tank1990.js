@@ -24,6 +24,13 @@ window.addEventListener("keyup", onKeyUp);
 function onKeyDown(key) {
   if (player.movingInterval != null) return;
   let moves = []; // left, up, right, down
+  if (key.keyCode == "32") {
+    let bullet = player.fire();
+    gameBoard.addChild(bullet.body);
+    this.fireInterval = setInterval(function () {
+      bullet.move();
+    }, 10);
+  }
   if (key.keyCode == "37") player.move(3);
   if (key.keyCode == "38") player.move(0);
   if (key.keyCode == "39") player.move(1);
