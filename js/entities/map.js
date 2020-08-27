@@ -1,6 +1,13 @@
 import { Brick } from './brick.js';
 import { Base } from './base.js';
 import { Steel } from './steel.js';
+/*
+ 0: empty road
+ 1: brick
+ 2: steel block
+ 3: player
+ 5: eagle
+*/
 let map = [
   [
     0,
@@ -756,4 +763,26 @@ export class Map {
       }
     }
   }
+  addTank = (y, x) => {
+    // console.log(this.map);
+    // console.log(y, x);
+    y *= 2;
+    x *= 2;
+    for (let i = 0; i < 2; i++) {
+      for (let j = 0; j < 2; j++) {
+        this.map[y + i][x + j] = 3;
+      }
+    }
+  };
+  removeTank = (y, x) => {
+    // console.log(this.map);
+    // console.log(y, x);
+    y *= 2;
+    x *= 2;
+    for (let i = 0; i < 2; i++) {
+      for (let j = 0; j < 2; j++) {
+        this.map[y + i][x + j] = 0;
+      }
+    }
+  };
 }
