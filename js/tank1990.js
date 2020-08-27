@@ -27,6 +27,7 @@ window.addEventListener('keydown',function(e){
   keyState[38] = false;
   keyState[39] = false;
   keyState[40] = false;
+  keyState[32] = false;
   keyState[e.keyCode || e.which] = true;
 },true);    
 window.addEventListener('keyup',function(e){
