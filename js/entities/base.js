@@ -1,17 +1,17 @@
 //TODO
 import { Renderer } from "./renderer.js";
-export class Brick {
+export class Base {
   constructor(y, x) {
-    this.size = 16;
+    this.size = 32;
     this.y = y;
     this.x = x;
 
     this.body = Renderer(
       this.size,
       this.size,
-      y * this.size,
-      x * this.size,
-      "brick"
+      y * 16,
+      x * 16,
+      "base"
     );
   }
 }
