@@ -1,6 +1,7 @@
 //TODO
 import { Brick } from "./brick.js";
 import { Base } from "./base.js";
+import { Steel } from "./steel.js";
 
 let map = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -41,6 +42,10 @@ export class Map {
                 if (map[i][j] == 1) {
                     let brk = new Brick(i, j);
                     this.body.addChild(brk.body);
+                }
+                if (map[i][j] == 2) {
+                    let stl = new Steel(i, j);
+                    this.body.addChild(stl.body);
                 }
                 if (map[i][j] == 5 && first) {
                     // alert(); 
