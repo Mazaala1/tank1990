@@ -15,6 +15,7 @@ export class Bot {
       x * this.size,
       "tank"
     );
+
     this.movingInterval = null;
     this.body.anchor.set(0.5, 0.5);
   }
