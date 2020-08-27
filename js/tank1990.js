@@ -11,7 +11,7 @@ const app = new PIXI.Application({
 const gameBoard = new PIXI.Container();
 
 let map = new Map();
-let player = new Tank(12.5, 4.5, 0);
+let player = new Tank(12.5, 4.5, 0, map);
 let shot = false;
 
 gameBoard.addChild(player.body);
@@ -41,10 +41,10 @@ window.addEventListener(
 
 function playerMoveLoop() {
   // moves: left, up, right, down
-  if (keyState[37]) player.move(3);
-  else if (keyState[38]) player.move(0);
-  else if (keyState[39]) player.move(1);
-  else if (keyState[40]) player.move(2);
+  if (keyState[37]) player.move(3, map);
+  else if (keyState[38]) player.move(0, map);
+  else if (keyState[39]) player.move(1, map);
+  else if (keyState[40]) player.move(2, map);
   setTimeout(playerMoveLoop, 20);
 }
 let bullets = [];
