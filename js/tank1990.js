@@ -1,52 +1,64 @@
-import { Tank } from "./entities/tank.js";
 import { Map } from "./entities/map.js";
-import { Base } from "./entities/base.js";
-const cellSize = 32; // may change later
-const width = 13,
+import { Tank } from "./entities/tank.js";
+const cellSize = 32,
+  width = 13,
   height = 13;
 const app = new PIXI.Application({
   width: width * cellSize,
   height: height * cellSize,
   backgroundColor: 0x000000,
 });
-
-document.body.appendChild(app.view);
-// alert('hello\n');
 const gameBoard = new PIXI.Container();
-app.stage.addChild(gameBoard);
-let player = new Tank(6, 6, 0);
-gameBoard.addChild(player.body);
+
 let map = new Map();
-let eagle = new Base();
+let player = new Tank(12.5, 4.5, 0);
+let shot = false;
+
+gameBoard.addChild(player.body);
 gameBoard.addChild(map.body);
-// window.addEventListener('keydown', player.move(0));
-// window.addEventListener('keyup', player.stop);
-window.addEventListener("keydown", onKeyDown);
-window.addEventListener("keyup", onKeyUp);
-while (!eagle.gameOver()) {
-  let spawn = setInterval(function () {
-    let bot = new Bot();
-  }, 100);
+
+app.stage.addChild(gameBoard);
+document.body.appendChild(app.view);
+
+var keyState = {};
+window.addEventListener(
+  "keydown",
+  function (e) {
+    if (e.keyCode != 32 && e.which != 32)
+      for (let i = 37; i < 41; i++) keyState[i] = false;
+    keyState[e.keyCode || e.which] = true;
+  },
+  true
+);
+window.addEventListener(
+  "keyup",
+  function (e) {
+    keyState[e.keyCode || e.which] = false;
+    if (e.keyCode == 32 || e.which == 32) shot = false;
+  },
+  true
+);
+
+function playerMoveLoop() {
+  // moves: left, up, right, down
+  if (keyState[37]) player.move(3);
+  else if (keyState[38]) player.move(0);
+  else if (keyState[39]) player.move(1);
+  else if (keyState[40]) player.move(2);
+  setTimeout(playerMoveLoop, 20);
 }
-function onKeyDown(key) {
-  if (player.movingInterval != null) return;
-  let moves = []; // left, up, right, down
-  if (key.keyCode == "32") {
+let bullets = [];
+function BulletMoveLoop() {
+  if (keyState[32] && !shot) {
     let bullet = player.fire();
+    bullets.push(bullet);
     gameBoard.addChild(bullet.body);
-    let fireInterval = setInterval(function () {
-      bullet.move();
-    }, 10);
+    shot = true;
   }
-  if (key.keyCode == "37") player.move(3);
-  if (key.keyCode == "38") player.move(0);
-  if (key.keyCode == "39") player.move(1);
-  if (key.keyCode == "40") player.move(2);
+  bullets.forEach((bullet) => {
+    bullet.move();
+  });
+  setTimeout(BulletMoveLoop, 25);
 }
-function onKeyUp(key) {
-  // alert('open');
-  clearInterval(player.movingInterval);
-  player.movingInterval = null;
-  // player.stop();
-}
-// window.addEventListener('keydown', test);
+playerMoveLoop();
+BulletMoveLoop();
