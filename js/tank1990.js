@@ -13,7 +13,7 @@ document.body.appendChild(app.view);
 // alert('hello\n');
 const gameBoard = new PIXI.Container();
 app.stage.addChild(gameBoard);
-let player = new Tank(12.5, 5, 0);
+let player = new Tank(12.5, 4.5, 0);
 gameBoard.addChild(player.body);
 let map = new Map();
 gameBoard.addChild(map.body);
