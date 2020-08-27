@@ -34,29 +34,29 @@ export class Tank {
       dirs.push(arc * i);
     }
     let self = this;
-    this.movingInterval = setInterval(function () {
+    // this.movingInterval = setInterval(function () {
       // console.log(this);
-      let dirX = [0, 0.1, 0, -0.1], // up right down left
-        dirY = [-0.1, 0, 0.1, 0];
-      // this.x
-      self.y += dirY[direction];
-      self.x += dirX[direction];
-      // console.log(arc);
-      // console.log(dirs);
-      self.body.rotation += dirs[direction] - dirs[self.direction];
-      if ((direction - self.direction + 4) % 2 == 1) {
-        console.log('here', self.x);
-        // console.log(self.x, self.x | 2);
-        self.x = (self.x * 2 + 0.5) | 0.5;
-        self.y = (self.y * 2 + 0.5) | 0.5;
-        self.y /= 2;
-        self.x /= 2;
-        // console.log(self.x);
-      }
-      self.body.x = self.x * self.size;
-      self.body.y = self.y * self.size;
-      self.direction = direction;
-    }, 20);
+    let dirX = [0, 0.1, 0, -0.1], // up right down left
+      dirY = [-0.1, 0, 0.1, 0];
+    // this.x
+    self.y += dirY[direction];
+    self.x += dirX[direction];
+    // console.log(arc);
+    // console.log(dirs);
+    self.body.rotation += dirs[direction] - dirs[self.direction];
+    if ((direction - self.direction + 4) % 2 == 1) {
+      console.log('here', self.x);
+      // console.log(self.x, self.x | 2);
+      self.x = (self.x * 2 + 0.5) | 0.5;
+      self.y = (self.y * 2 + 0.5) | 0.5;
+      self.y /= 2;
+      self.x /= 2;
+      // console.log(self.x);
+    }
+    self.body.x = self.x * self.size;
+    self.body.y = self.y * self.size;
+    self.direction = direction;
+    // }, 20);
   };
   stop = () => {
     alert('open1');
