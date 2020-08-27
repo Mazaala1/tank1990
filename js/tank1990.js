@@ -1,5 +1,6 @@
 import { Tank } from "./entities/tank.js";
 import { Map } from "./entities/map.js";
+import { Base } from "./entities/base.js";
 const cellSize = 32; // may change later
 const width = 13,
   height = 13;
@@ -16,18 +17,24 @@ app.stage.addChild(gameBoard);
 let player = new Tank(6, 6, 0);
 gameBoard.addChild(player.body);
 let map = new Map();
+let eagle = new Base();
 gameBoard.addChild(map.body);
 // window.addEventListener('keydown', player.move(0));
 // window.addEventListener('keyup', player.stop);
 window.addEventListener("keydown", onKeyDown);
 window.addEventListener("keyup", onKeyUp);
+while (!eagle.gameOver()) {
+  let spawn = setInterval(function () {
+    let bot = new Bot();
+  }, 100);
+}
 function onKeyDown(key) {
   if (player.movingInterval != null) return;
   let moves = []; // left, up, right, down
   if (key.keyCode == "32") {
     let bullet = player.fire();
     gameBoard.addChild(bullet.body);
-    this.fireInterval = setInterval(function () {
+    let fireInterval = setInterval(function () {
       bullet.move();
     }, 10);
   }
