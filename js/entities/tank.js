@@ -53,7 +53,7 @@ export class Tank {
 
     if (pastY != curY || pastX != curX) {
       // update
-      console.log(pastY - 0.5, pastX - 0.5, "-->", curY - 0.5, curX - 0.5);
+      console.log(pastY - 0.5, pastX - 0.5, '-->', curY - 0.5, curX - 0.5);
       // deleteTankFromData()
     }
     if ((direction - self.direction + 4) % 2 == 1) {
