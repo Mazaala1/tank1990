@@ -50,7 +50,6 @@ export class Map {
                 if (map[i][j] == 5 && first) {
                     // alert(); 
                     let base = new Base(i, j);
-                    console.log(base);
                     this.body.addChild(base.body);
                     first = false;
                 }

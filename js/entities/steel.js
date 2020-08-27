@@ -1,5 +1,4 @@
-//TODO
-import { Renderer } from "./renderer.js";
+import { Renderer } from './renderer.js';
 export class Steel {
   constructor(y, x) {
     this.size = 16;
@@ -11,7 +10,7 @@ export class Steel {
       this.size,
       y * this.size,
       x * this.size,
-      "steel"
+      'steel'
     );
   }
 }

@@ -1,12 +1,11 @@
-import { Renderer } from "./renderer.js";
+import { Renderer } from './renderer.js';
 export class Bullet {
   constructor(y, x, direction) {
     this.size = 8;
     this.y = y;
     this.x = x;
     this.direction = direction;
-    this.body = Renderer(this.size, this.size, y * 32, x * 32, "bullet");
-    // console.log(this.body, "body");
+    this.body = Renderer(this.size, this.size, y * 32, x * 32, 'bullet');
     this.body.anchor.set(0.5, 0.5);
     let arc = Math.PI / 2;
     this.body.rotation += arc * direction;

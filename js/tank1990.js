@@ -1,5 +1,5 @@
-import { Map } from "./entities/map.js";
-import { Tank } from "./entities/tank.js";
+import { Map } from './entities/map.js';
+import { Tank } from './entities/tank.js';
 const cellSize = 32,
   width = 13,
   height = 13;
@@ -22,7 +22,7 @@ document.body.appendChild(app.view);
 
 var keyState = {};
 window.addEventListener(
-  "keydown",
+  'keydown',
   function (e) {
     if (e.keyCode != 32 && e.which != 32)
       for (let i = 37; i < 41; i++) keyState[i] = false;
@@ -31,7 +31,7 @@ window.addEventListener(
   true
 );
 window.addEventListener(
-  "keyup",
+  'keyup',
   function (e) {
     keyState[e.keyCode || e.which] = false;
     if (e.keyCode == 32 || e.which == 32) shot = false;

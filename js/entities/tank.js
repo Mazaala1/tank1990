@@ -1,6 +1,6 @@
 //TODO
-import { Bullet } from "./bullet.js";
-import { Renderer } from "./renderer.js";
+import { Bullet } from './bullet.js';
+import { Renderer } from './renderer.js';
 export class Tank {
   constructor(y, x, direction) {
     this.size = 32;
@@ -12,8 +12,9 @@ export class Tank {
       this.size,
       y * this.size,
       x * this.size,
-      "tank"
+      'tank'
     );
+
     this.movingInterval = null;
     this.body.anchor.set(0.5, 0.5);
   }
@@ -26,10 +27,6 @@ export class Tank {
   fire = () => {
     let bullet = new Bullet(this.y, this.x, this.direction);
     return bullet;
-    // this.fireInterval = setInterval(function () {
-    //   bullet.move();
-    // }, 1000);
-    // console.log(bullet);
   };
 
   move = (direction) => {
@@ -40,12 +37,25 @@ export class Tank {
       dirs.push(arc * i);
     }
     let self = this;
+    self.body.rotation += dirs[direction] - dirs[self.direction];
     // up right down left
     let dirX = [0, 0.1, 0, -0.1],
-      dirY = [-0.1, 0, 0.1, 0];
+      dirY = [-0.1, 0, 0.1, 0],
+      pastY = self.y - (self.y % 0.5),
+      pastX = self.x - (self.x % 0.5),
+      curY,
+      curX;
     self.y += dirY[direction];
     self.x += dirX[direction];
-    self.body.rotation += dirs[direction] - dirs[self.direction];
+
+    curY = self.y - (self.y % 0.5);
+    curX = self.x - (self.x % 0.5);
+
+    if (pastY != curY || pastX != curX) {
+      // update
+      console.log(pastY - 0.5, pastX - 0.5, "-->", curY - 0.5, curX - 0.5);
+      // deleteTankFromData()
+    }
     if ((direction - self.direction + 4) % 2 == 1) {
       self.x = (self.x * 2 + 0.5) | 0.5;
       self.y = (self.y * 2 + 0.5) | 0.5;
