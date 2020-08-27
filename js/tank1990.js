@@ -34,20 +34,36 @@ window.addEventListener('keyup',function(e){
 },true);
 
 function gameLoop() {
-  if (player.movingInterval != null) return;
-  let moves = []; // left, up, right, down
+  // if (player.movingInterval != null) return;
+  // let moves = []; // left, up, right, down
   if (keyState[37]) player.move(3);
   else if (keyState[38]) player.move(0);
   else if (keyState[39]) player.move(1);
   else if (keyState[40]) player.move(2);
+
+  // if (keyState[32]) {
+  //   let bullet = player.fire();
+  //   gameBoard.addChild(bullet.body);
+  //   bullet.move();    
+  // }
+
+  // if (keyState[32]) {
+  //   let bullet = player.fire();
+  //   gameBoard.addChild(bullet.body);
+  //   bullet.move();    
+  // }
   setTimeout(gameLoop, 20);
 };
+let bullets = [];
 function gameLoop1() {
   if (keyState[32]) {
     let bullet = player.fire();
+    bullets.push(bullet);
     gameBoard.addChild(bullet.body);
-    bullet.move();    
   }
+  bullets.forEach(bullet => {
+    bullet.move();    
+  });
   setTimeout(gameLoop1, 25);
 };
 gameLoop();
