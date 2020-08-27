@@ -1,7 +1,6 @@
-//TODO
-import { Brick } from "./brick.js";
-import { Base } from "./base.js";
-import { Steel } from "./steel.js";
+import { Brick } from './brick.js';
+import { Base } from './base.js';
+import { Steel } from './steel.js';
 
 let map = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -33,28 +32,35 @@ let map = [
 ];
 
 export class Map {
-    constructor(){
-        this.body = new PIXI.Container();
-        this.map = map;
-        let first = true;
-        for (let i = 0; i < map.length; i++) {
-            for (let j = 0; j < map[i].length; j++) {
-                if (map[i][j] == 1) {
-                    let brk = new Brick(i, j);
-                    this.body.addChild(brk.body);
-                }
-                if (map[i][j] == 2) {
-                    let stl = new Steel(i, j);
-                    this.body.addChild(stl.body);
-                }
-                if (map[i][j] == 5 && first) {
-                    // alert(); 
-                    let base = new Base(i, j);
-                    console.log(base);
-                    this.body.addChild(base.body);
-                    first = false;
-                }
-            }
-        }
+  constructor() {
+    this.body = new PIXI.Container();
+    this.map = map;
+    let tmp = [];
+    for (let i = 0; i < 13; i++) {
+      let tmp1 = [];
+      for (let j = 0; j < 13; j++) tmp1.push(null);
+      tmp.push(tmp1);
     }
+    this.mapElements = tmp;
+    let first = true;
+    for (let i = 0; i < map.length; i++) {
+      for (let j = 0; j < map[i].length; j++) {
+        if (map[i][j] == 1) {
+          let brk = new Brick(i, j);
+          this.body.addChild(brk.body);
+        }
+        if (map[i][j] == 2) {
+          let stl = new Steel(i, j);
+          this.body.addChild(stl.body);
+        }
+        if (map[i][j] == 5 && first) {
+          // alert();
+          let base = new Base(i, j);
+          console.log(base);
+          this.body.addChild(base.body);
+          first = false;
+        }
+      }
+    }
+  }
 }

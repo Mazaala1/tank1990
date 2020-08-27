@@ -1,6 +1,6 @@
 //TODO
-import { Bullet } from "./bullet.js";
-import { Renderer } from "./renderer.js";
+import { Bullet } from './bullet.js';
+import { Renderer } from './renderer.js';
 export class Tank {
   constructor(y, x, direction) {
     this.size = 32;
@@ -12,7 +12,7 @@ export class Tank {
       this.size,
       y * this.size,
       x * this.size,
-      "tank"
+      'tank'
     );
     this.movingInterval = null;
     this.body.anchor.set(0.5, 0.5);
@@ -20,19 +20,11 @@ export class Tank {
 
   // TODO
   // **
-  // shoot = (y, x, direction) => {
-  //   let bullet = new Bullet(y, x, direction);
-  // };
   fire = () => {
     let bullet = new Bullet(this.y, this.x, this.direction);
     return bullet;
-    // this.fireInterval = setInterval(function () {
-    //   bullet.move();
-    // }, 1000);
-    // console.log(bullet);
   };
   // destroy();
-  // let check = 0;
 
   move = (direction) => {
     // check
@@ -53,7 +45,7 @@ export class Tank {
       // console.log(dirs);
       self.body.rotation += dirs[direction] - dirs[self.direction];
       if ((direction - self.direction + 4) % 2 == 1) {
-        console.log("here", self.x);
+        console.log('here', self.x);
         // console.log(self.x, self.x | 2);
         self.x = (self.x * 2 + 0.5) | 0.5;
         self.y = (self.y * 2 + 0.5) | 0.5;
@@ -67,7 +59,7 @@ export class Tank {
     }, 20);
   };
   stop = () => {
-    alert("open1");
+    alert('open1');
     clearInterval(this.movingInterval);
   };
   // pickBoost(); // todo
