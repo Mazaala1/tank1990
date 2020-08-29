@@ -17,7 +17,6 @@ export class Tank {
       x * this.size,
       'tank' + '_' + this.direction + '_' + this.animation + '_' + this.lvl
     );
-    // map.addTank(y - 0.5, x - 0.5);
   }
 
   // TODO
@@ -45,6 +44,7 @@ export class Tank {
     }
     return true;
   };
+
   move = (direction, map) => {
     // check
     let pastDirection = this.direction;
@@ -71,20 +71,15 @@ export class Tank {
     nextY = Math.floor(nextY * 2) / 2;
     nextX = Math.floor(nextX * 2) / 2;
 
-    if (nextY != curY || nextX != curX) {
-      // add moveCheck here
-      // map.removeTank(curY - 0.5, curX - 0.5);
-      // map.addTank(nextY - 0.5, nextX - 0.5);
-    }
-    this.y += dirY[direction];
-    this.x += dirX[direction];
-    curY = Math.floor(this.y * 2) / 2;
-    curX = Math.floor(this.x * 2) / 2;
+    curY = Math.floor(self.y * 2) / 2;
+    curX = Math.floor(self.x * 2) / 2;
     if ((direction - pastDirection + 4) % 2 == 1) {
       this.x = (this.x * 2 + 0.5) | 0.5;
       this.y = (this.y * 2 + 0.5) | 0.5;
       this.y /= 2;
       this.x /= 2;
+      this.body.x = this.x * this.size;
+      this.body.y = this.y * this.size;
     }
     if (this.changeAnimation) {
       this.animation = (this.animation + 1) % 2;
@@ -103,6 +98,9 @@ export class Tank {
     } else {
       this.changeAnimation = true;
     }
+    if (map.wall(direction, map, this.y, this.x)) return;
+    this.y += dirY[direction];
+    this.x += dirX[direction];
     this.body.x = this.x * this.size;
     this.body.y = this.y * this.size;
   };
