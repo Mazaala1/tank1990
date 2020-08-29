@@ -8,10 +8,8 @@ export class Tank {
     this.direction = direction;
     this.lvl = 0;
     this.animation = 0;
+    this.changeAnimation = false;
     // tank asset detail : tank_{direction}_{animation}_{lvl}
-    console.log(
-      'tank' + '_' + this.direction + '_' + this.animation + '_' + this.lvl
-    );
     this.body = Renderer(
       this.size,
       this.size,
@@ -34,7 +32,6 @@ export class Tank {
   check = (y, x, map) => {
     y *= 2;
     x *= 2;
-    console.log(y, x);
     for (let i = 0; i < 2; i++) {
       for (let j = 0; j < 2; j++) {
         let Y = y + i;
@@ -50,10 +47,9 @@ export class Tank {
   };
   move = (direction, map) => {
     // check
-    let self = this;
-    let pastDirection = self.direction;
+    let pastDirection = this.direction;
     this.direction = direction;
-    self.body.texture = PIXI.Texture.from(
+    this.body.texture = PIXI.Texture.from(
       'assets/' +
         'tank' +
         '_' +
@@ -67,10 +63,10 @@ export class Tank {
     // up right down left
     let dirX = [0, 0.1, 0, -0.1],
       dirY = [-0.1, 0, 0.1, 0],
-      curY = Math.floor(self.y * 2) / 2,
-      curX = Math.floor(self.x * 2) / 2,
-      nextY = self.y + dirY[direction],
-      nextX = self.x + dirX[direction];
+      curY = Math.floor(this.y * 2) / 2,
+      curX = Math.floor(this.x * 2) / 2,
+      nextY = this.y + dirY[direction],
+      nextX = this.x + dirX[direction];
 
     nextY = Math.floor(nextY * 2) / 2;
     nextX = Math.floor(nextX * 2) / 2;
@@ -80,17 +76,34 @@ export class Tank {
       // map.removeTank(curY - 0.5, curX - 0.5);
       // map.addTank(nextY - 0.5, nextX - 0.5);
     }
-    self.y += dirY[direction];
-    self.x += dirX[direction];
-    curY = Math.floor(self.y * 2) / 2;
-    curX = Math.floor(self.x * 2) / 2;
+    this.y += dirY[direction];
+    this.x += dirX[direction];
+    curY = Math.floor(this.y * 2) / 2;
+    curX = Math.floor(this.x * 2) / 2;
     if ((direction - pastDirection + 4) % 2 == 1) {
-      self.x = (self.x * 2 + 0.5) | 0.5;
-      self.y = (self.y * 2 + 0.5) | 0.5;
-      self.y /= 2;
-      self.x /= 2;
+      this.x = (this.x * 2 + 0.5) | 0.5;
+      this.y = (this.y * 2 + 0.5) | 0.5;
+      this.y /= 2;
+      this.x /= 2;
     }
-    self.body.x = self.x * self.size;
-    self.body.y = self.y * self.size;
+    if (this.changeAnimation) {
+      this.animation = (this.animation + 1) % 2;
+      this.body.texture = PIXI.Texture.from(
+        'assets/' +
+          'tank' +
+          '_' +
+          this.direction +
+          '_' +
+          this.animation +
+          '_' +
+          this.lvl +
+          '.png'
+      );
+      this.changeAnimation = false;
+    } else {
+      this.changeAnimation = true;
+    }
+    this.body.x = this.x * this.size;
+    this.body.y = this.y * this.size;
   };
 }
