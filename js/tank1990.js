@@ -1,5 +1,7 @@
 import { Map } from './entities/map.js';
 import { Tank } from './entities/tank.js';
+import { Explosion } from './entities/explosion.js';
+import { Spawn } from './entities/spawn.js';
 const cellSize = 32,
   width = 13,
   height = 13;
@@ -51,6 +53,22 @@ let bullets = [];
 function BulletMoveLoop() {
   if (keyState[32] && !shot) {
     let bullet = player.fire();
+    /*
+    // Explosion:
+    let explosion = new Explosion(player.y, player.x, 'big');
+    gameBoard.addChild(explosion);
+    setTimeout(() => {
+      gameBoard.removeChild(explosion);
+    }, 500);
+    */
+    /*
+    // Spawn:
+    let spawn = new Spawn(player.y, player.x);
+    gameBoard.addChild(spawn);
+    setTimeout(() => {
+      gameBoard.removeChild(spawn);
+    }, 500);
+    */
     bullets.push(bullet);
     gameBoard.addChild(bullet.body);
     shot = true;
