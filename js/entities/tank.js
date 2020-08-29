@@ -51,16 +51,26 @@ export class Tank {
   };
   move = (direction, map) => {
     // check
-    return;
     let arc = Math.PI / 2;
     let dirs = [];
     for (let i = 0; i < 4; i++) {
       dirs.push(arc * i);
     }
     let self = this;
-    self.body.rotation += dirs[direction] - dirs[self.direction];
+    // self.body.rotation += dirs[direction] - dirs[self.direction];
     let pastDirection = self.direction;
     this.direction = direction;
+    self.body.texture = PIXI.Texture.from(
+      'assets/' +
+        'tank' +
+        '_' +
+        this.direction +
+        '_' +
+        this.animation +
+        '_' +
+        this.lvl +
+        '.png'
+    );
     // up right down left
     let dirX = [0, 0.1, 0, -0.1],
       dirY = [-0.1, 0, 0.1, 0],
