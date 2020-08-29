@@ -22,6 +22,3 @@ export class Bullet {
     this.body.y = this.y * 32;
   };
 }
-
-// a = Bullet(this.y, this.x, direction);
-// a.move;
