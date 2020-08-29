@@ -1,6 +1,6 @@
-import { Renderer } from "./renderer.js";
+import { Renderer } from './renderer.js';
 
-let type = ["fast", "armor", "basic"];
+let type = ['fast', 'armor', 'basic'];
 let speed = [];
 export class Bot {
   constructor(y, x, direction, type) {
@@ -13,10 +13,9 @@ export class Bot {
       this.size,
       y * this.size,
       x * this.size,
-      "tank"
+      'tank'
     );
 
     this.movingInterval = null;
-    this.body.anchor.set(0.5, 0.5);
   }
 }

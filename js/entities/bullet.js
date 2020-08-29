@@ -6,7 +6,6 @@ export class Bullet {
     this.x = x;
     this.direction = direction;
     this.body = Renderer(this.size, this.size, y * 32, x * 32, 'bullet');
-    this.body.anchor.set(0.5, 0.5);
     let arc = Math.PI / 2;
     this.body.rotation += arc * direction;
   }
