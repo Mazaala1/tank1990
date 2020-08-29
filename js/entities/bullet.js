@@ -5,9 +5,13 @@ export class Bullet {
     this.y = y;
     this.x = x;
     this.direction = direction;
-    this.body = Renderer(this.size, this.size, y * 32, x * 32, 'bullet');
-    let arc = Math.PI / 2;
-    this.body.rotation += arc * direction;
+    this.body = Renderer(
+      this.size,
+      this.size,
+      y * 32,
+      x * 32,
+      'bullet' + direction
+    );
   }
   move = () => {
     let dirX = [0, 0.25, 0, -0.25],

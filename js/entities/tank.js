@@ -13,7 +13,7 @@ export class Tank {
       this.size,
       y * this.size,
       x * this.size,
-      'tank'
+      'tank' + direction
     );
     // map.addTank(y - 0.5, x - 0.5);
   }
