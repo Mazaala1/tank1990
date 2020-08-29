@@ -99,8 +99,8 @@ export class Tank {
     }
     if (map.wall(direction, map, this.y, this.x))
       return;
-    self.y += dirY[direction];
-    self.x += dirX[direction];
+    this.y += dirY[direction];
+    this.x += dirX[direction];
     if (nextY != curY || nextX != curX) {
       // add moveCheck here
       // map.removeTank(curY - 0.5, curX - 0.5);
@@ -108,8 +108,8 @@ export class Tank {
     }
     // this.x = Math.floor(this.x * 10) / 10;
     // this.y = Math.floor(this.y * 10) / 10;
-    self.body.x = self.x * self.size;
-    self.body.y = self.y * self.size;
+    this.body.x = this.x * this.size;
+    this.body.y = this.y * this.size;
     // console.log(this.x, this.y);
   };
 }
