@@ -1,13 +1,14 @@
-import { Bullet } from "./bullet.js";
-import { Renderer } from "./renderer.js";
+import { Bullet } from './bullet.js';
+import { Renderer } from './renderer.js';
+
 export class Tank {
   constructor(y, x, direction, map) {
-    this.size = 32;
     this.y = y;
     this.x = x;
-    this.direction = direction;
     this.lvl = 0;
+    this.size = 32;
     this.animation = 0;
+    this.direction = direction;
     this.changeAnimation = false;
     // tank asset detail : tank_{direction}_{animation}_{lvl}
     this.body = Renderer(
@@ -15,10 +16,9 @@ export class Tank {
       this.size,
       y * this.size,
       x * this.size,
-      "tank" + "_" + this.direction + "_" + this.animation + "_" + this.lvl
+      'tank' + '_' + this.direction + '_' + this.animation + '_' + this.lvl
     );
   }
-
   // TODO
   // **
   // destroy();
@@ -30,33 +30,29 @@ export class Tank {
   };
 
   move = (direction, map) => {
-    // check
     let pastDirection = this.direction;
     this.direction = direction;
+
     this.body.texture = PIXI.Texture.from(
-      "assets/" +
-        "tank" +
-        "_" +
+      'assets/' +
+        'tank' +
+        '_' +
         this.direction +
-        "_" +
+        '_' +
         this.animation +
-        "_" +
+        '_' +
         this.lvl +
-        ".png"
+        '.png'
     );
     // up right down left
     let dirX = [0, 0.1, 0, -0.1],
       dirY = [-0.1, 0, 0.1, 0],
-      curY = Math.floor(this.y * 2) / 2,
-      curX = Math.floor(this.x * 2) / 2,
       nextY = this.y + dirY[direction],
       nextX = this.x + dirX[direction];
 
     nextY = Math.floor(nextY * 2) / 2;
     nextX = Math.floor(nextX * 2) / 2;
 
-    curY = Math.floor(self.y * 2) / 2;
-    curX = Math.floor(self.x * 2) / 2;
     if ((direction - pastDirection + 4) % 2 == 1) {
       this.x = (this.x * 2 + 0.5) | 0.5;
       this.y = (this.y * 2 + 0.5) | 0.5;
@@ -68,15 +64,15 @@ export class Tank {
     if (this.changeAnimation) {
       this.animation = (this.animation + 1) % 2;
       this.body.texture = PIXI.Texture.from(
-        "assets/" +
-          "tank" +
-          "_" +
+        'assets/' +
+          'tank' +
+          '_' +
           this.direction +
-          "_" +
+          '_' +
           this.animation +
-          "_" +
+          '_' +
           this.lvl +
-          ".png"
+          '.png'
       );
       this.changeAnimation = false;
     } else {

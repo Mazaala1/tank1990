@@ -36,11 +36,10 @@ let map = [
   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
   [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
 ];
-
 export class Map {
   constructor() {
-    this.body = new PIXI.Container();
     this.map = map;
+    this.body = new PIXI.Container();
     let first = true;
     for (let i = 0; i < map.length; i++) {
       for (let j = 0; j < map[i].length; j++) {
@@ -94,10 +93,10 @@ export class Map {
     )
       return true;
     if (
-      (this.map[y][x] == 0 || this.map[y][x] == 3) &&
-      (this.map[y + 1][x] == 0 || this.map[y + 1][x] == 3) &&
-      (this.map[y][x + 1] == 0 || this.map[y][x + 1] == 3) &&
-      (this.map[y + 1][x + 1] == 0 || this.map[y + 1][x + 1] == 3)
+      this.map[y][x] == 0 &&
+      this.map[y + 1][x] == 0 &&
+      this.map[y][x + 1] == 0 &&
+      this.map[y + 1][x + 1] == 0
     )
       return false;
     return true;

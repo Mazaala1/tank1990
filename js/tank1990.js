@@ -13,12 +13,12 @@ const app = new PIXI.Application({
 });
 const gameBoard = new PIXI.Container();
 
+let shot = false;
 let map = new Map();
 let player = new Tank(12, 4, 0, map);
-let shot = false;
 
-gameBoard.addChild(player.body);
 gameBoard.addChild(map.body);
+gameBoard.addChild(player.body);
 
 app.stage.addChild(gameBoard);
 document.body.appendChild(app.view);
@@ -41,28 +41,24 @@ window.addEventListener(
   },
   true
 );
-let botX = [6, 12, 0],
+let new_bot,
   cnt = 50,
-  choose = 0;
-let bots = [];
-let bullets = [];
-let new_bot;
+  bots = [],
+  choose = 0,
+  bullets = [],
+  botX = [6, 12, 0];
 function playerMoveLoop() {
   // moves: left, up, right, down
   if (cnt == 70 && bots.length < 4) {
-    // /*
-    // Spawn:
     let spawn = new Spawn(0, botX[choose]);
     gameBoard.addChild(spawn);
     setTimeout(() => {
       gameBoard.removeChild(spawn);
     }, 500);
-    // */
   }
   if (cnt == 99 && bots.length < 4) {
     new_bot = new Bot(0, botX[choose], 2);
     bots.push(new_bot);
-    console.log(bots);
     gameBoard.addChild(new_bot.body);
     choose++;
     choose %= botX.length;
@@ -78,7 +74,6 @@ function playerMoveLoop() {
     });
   }
   if (cnt % 2 == 0) {
-    // console.log(cnt, "cnt");
     bots.forEach((bot) => {
       if (!bot.freeze) {
         bot.move(map);
@@ -93,12 +88,8 @@ function playerMoveLoop() {
   else if (keyState[38]) player.move(0, map);
   else if (keyState[39]) player.move(1, map);
   else if (keyState[40]) player.move(2, map);
-  // cnt = Math.min(100, cnt + 1);
   cnt++;
   cnt %= 100;
-  // if(cnt == 100) {
-
-  // }
   setTimeout(playerMoveLoop, 20);
 }
 function BulletMoveLoop() {
@@ -112,9 +103,9 @@ function BulletMoveLoop() {
       gameBoard.removeChild(explosion);
     }, 500);
     */
+    shot = true;
     bullets.push(bullet);
     gameBoard.addChild(bullet.body);
-    shot = true;
   }
   bullets.forEach((bullet) => {
     bullet.move();

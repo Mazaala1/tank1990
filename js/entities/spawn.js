@@ -1,12 +1,11 @@
 export class Spawn {
   constructor(y, x) {
+    this.spawnTextures = [];
     this.size = 32;
+    this.len = 4;
     this.y = y;
     this.x = x;
-    this.len = 4;
-    this.spawnTextures = [];
     for (let i = 0; i < this.len; i++) {
-      console.log('assets/spawn' + i + '.png');
       const texture1 = PIXI.Texture.from('assets/spawn' + i + '.png');
       this.spawnTextures.push({ texture: texture1, time: 100 });
     }
