@@ -1,8 +1,8 @@
-import { Map } from "./entities/map.js";
-import { Tank } from "./entities/tank.js";
-import { Explosion } from "./entities/explosion.js";
-import { Spawn } from "./entities/spawn.js";
-import { Bot } from "./entities/bot.js";
+import { Map } from './entities/map.js';
+import { Tank } from './entities/tank.js';
+import { Explosion } from './entities/explosion.js';
+import { Spawn } from './entities/spawn.js';
+import { Bot } from './entities/bot.js';
 const cellSize = 32,
   width = 13,
   height = 13;
@@ -25,7 +25,7 @@ document.body.appendChild(app.view);
 
 var keyState = {};
 window.addEventListener(
-  "keydown",
+  'keydown',
   function (e) {
     if (e.keyCode != 32 && e.which != 32)
       for (let i = 37; i < 41; i++) keyState[i] = false;
@@ -34,7 +34,7 @@ window.addEventListener(
   true
 );
 window.addEventListener(
-  "keyup",
+  'keyup',
   function (e) {
     keyState[e.keyCode || e.which] = false;
     if (e.keyCode == 32 || e.which == 32) shot = false;
@@ -49,11 +49,18 @@ let bullets = [];
 let new_bot;
 function playerMoveLoop() {
   // moves: left, up, right, down
+  if (cnt == 70 && bots.length < 4) {
+    // /*
+    // Spawn:
+    let spawn = new Spawn(0, botX[choose]);
+    gameBoard.addChild(spawn);
+    setTimeout(() => {
+      gameBoard.removeChild(spawn);
+    }, 500);
+    // */
+  }
   if (cnt == 99 && bots.length < 4) {
     new_bot = new Bot(0, botX[choose], 2);
-    // new_bot.body.texture = PIXI.Texture.from(
-    //   "assets/" + "appear" + String(cnt - 95) + ".png"
-    // );
     bots.push(new_bot);
     console.log(bots);
     gameBoard.addChild(new_bot.body);
@@ -103,14 +110,6 @@ function BulletMoveLoop() {
     gameBoard.addChild(explosion);
     setTimeout(() => {
       gameBoard.removeChild(explosion);
-    }, 500);
-    */
-    /*
-    // Spawn:
-    let spawn = new Spawn(player.y, player.x);
-    gameBoard.addChild(spawn);
-    setTimeout(() => {
-      gameBoard.removeChild(spawn);
     }, 500);
     */
     bullets.push(bullet);
