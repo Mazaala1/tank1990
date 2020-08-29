@@ -3,7 +3,7 @@ import { Tank } from './entities/tank.js';
 import { Explosion } from './entities/explosion.js';
 import { Spawn } from './entities/spawn.js';
 import { Bot } from './entities/bot.js';
-import { BitmapText } from 'pixi.js';
+
 const cellSize = 32,
   width = 13,
   height = 13;
@@ -50,7 +50,7 @@ let new_bot,
   bullets = [],
   botX = [6, 12, 0];
 function playerMoveLoop() {
-  moves: left, up, right, down
+  //moves: left, up, right, down
   if (cnt == 70 && bots.length < 4) {
     let spawn = new Spawn(0, botX[choose]);
     gameBoard.addChild(spawn);
@@ -114,15 +114,15 @@ function BulletMoveLoop() {
   for (let i = 0; i < bullets.length; i++) {
     let bullet = bullets[i];
     bullet.move();
-    if (bullet.collision(app.stage)) {
-      console.log("onoson");
-      gameBoard.removeChild(bullet);
-      // let temp = bullet;
-      // bullets[i] = bullets[bullets.length - 1];
-      // bullets[bullets.length - 1] = temp;
-      // bullets.pop();
-      // i--;
-    }
+    // if (bullet.collision(app.stage)) {
+    //   console.log("onoson");
+    //   gameBoard.removeChild(bullet);
+    //   let temp = bullet;
+    //   bullets[i] = bullets[bullets.length - 1];
+    //   bullets[bullets.length - 1] = temp;
+    //   bullets.pop();
+    //   i--;
+    // }
   }
   setTimeout(BulletMoveLoop, 25);
 }
