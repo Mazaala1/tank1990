@@ -28,22 +28,6 @@ export class Tank {
     let bullet = new Bullet(this.y, this.x, this.direction);
     return bullet;
   };
-  check = (y, x, map) => {
-    y *= 2;
-    x *= 2;
-    for (let i = 0; i < 2; i++) {
-      for (let j = 0; j < 2; j++) {
-        let Y = y + i;
-        let X = x + j;
-        if (Y >= map.map.length || Y < 0 || X >= map.map[Y].length || X < 0)
-          return false;
-        if (map.map[Y][X] != 0 && map.map[Y][X] != 3) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
 
   move = (direction, map) => {
     // check
