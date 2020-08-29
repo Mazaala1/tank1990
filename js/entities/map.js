@@ -755,7 +755,6 @@ export class Map {
           this.body.addChild(stl.body);
         }
         if (map[i][j] == 5 && first) {
-          // alert();
           let base = new Base(i, j);
           this.body.addChild(base.body);
           first = false;
@@ -764,8 +763,6 @@ export class Map {
     }
   }
   addTank = (y, x) => {
-    // console.log(this.map);
-    // console.log(y, x);
     y *= 2;
     x *= 2;
     for (let i = 0; i < 2; i++) {
@@ -775,8 +772,6 @@ export class Map {
     }
   };
   removeTank = (y, x) => {
-    // console.log(this.map);
-    // console.log(y, x);
     y *= 2;
     x *= 2;
     for (let i = 0; i < 2; i++) {

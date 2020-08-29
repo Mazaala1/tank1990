@@ -1,4 +1,3 @@
-//TODO
 import { Bullet } from './bullet.js';
 import { Renderer } from './renderer.js';
 export class Tank {
@@ -51,13 +50,7 @@ export class Tank {
   };
   move = (direction, map) => {
     // check
-    let arc = Math.PI / 2;
-    let dirs = [];
-    for (let i = 0; i < 4; i++) {
-      dirs.push(arc * i);
-    }
     let self = this;
-    // self.body.rotation += dirs[direction] - dirs[self.direction];
     let pastDirection = self.direction;
     this.direction = direction;
     self.body.texture = PIXI.Texture.from(
@@ -80,7 +73,6 @@ export class Tank {
       nextX = self.x + dirX[direction];
 
     nextY = Math.floor(nextY * 2) / 2;
-    // nextX = nextX - (nextX % 0.5);
     nextX = Math.floor(nextX * 2) / 2;
 
     if (nextY != curY || nextX != curX) {
