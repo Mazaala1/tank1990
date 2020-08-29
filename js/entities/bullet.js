@@ -5,6 +5,7 @@ export class Bullet {
     this.y = y;
     this.x = x;
     this.direction = direction;
+    this.margin = 32 - this.size;
     this.body = Renderer(
       this.size,
       this.size,

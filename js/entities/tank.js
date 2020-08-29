@@ -26,7 +26,7 @@ export class Tank {
   // pickBoost();
   // **
   fire = () => {
-    let bullet = new Bullet(this.y, this.x, this.direction);
+    let bullet = new Bullet(this.y + 0.375, this.x + 0.375, this.direction);
     return bullet;
   };
   check = (y, x, map) => {
@@ -79,6 +79,8 @@ export class Tank {
       this.y = (this.y * 2 + 0.5) | 0.5;
       this.y /= 2;
       this.x /= 2;
+      this.body.x = this.x * this.size;
+      this.body.y = this.y * this.size;
     }
     if (this.changeAnimation) {
       this.animation = (this.animation + 1) % 2;
@@ -97,8 +99,7 @@ export class Tank {
     } else {
       this.changeAnimation = true;
     }
-    if (map.wall(direction, map, this.y, this.x))
-      return;
+    if (map.wall(direction, map, this.y, this.x)) return;
     this.y += dirY[direction];
     this.x += dirX[direction];
     if (nextY != curY || nextX != curX) {
