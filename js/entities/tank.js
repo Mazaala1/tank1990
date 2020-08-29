@@ -26,7 +26,7 @@ export class Tank {
   // pickBoost();
   // **
   fire = () => {
-    let bullet = new Bullet(this.y + 0.375, this.x + 0.375, this.direction);
+    let bullet = new Bullet(this.y, this.x, this.direction);
     return bullet;
   };
   check = (y, x, map) => {

@@ -5,12 +5,12 @@ export class Bullet {
     this.y = y;
     this.x = x;
     this.direction = direction;
-    this.margin = 32 - this.size;
+    this.margin = (32 - this.size) / 2;
     this.body = Renderer(
       this.size,
       this.size,
-      y * 32,
-      x * 32,
+      y * 32 + this.margin,
+      x * 32 + this.margin,
       'bullet' + direction
     );
   }
@@ -19,7 +19,7 @@ export class Bullet {
       dirY = [-0.25, 0, 0.25, 0];
     this.y += dirY[this.direction];
     this.x += dirX[this.direction];
-    this.body.x = this.x * 32;
-    this.body.y = this.y * 32;
+    this.body.x = this.x * 32 + this.margin;
+    this.body.y = this.y * 32 + this.margin;
   };
 }
