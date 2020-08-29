@@ -1,5 +1,5 @@
-import { Bullet } from './bullet.js';
-import { Renderer } from './renderer.js';
+import { Bullet } from "./bullet.js";
+import { Renderer } from "./renderer.js";
 export class Tank {
   constructor(y, x, direction, map) {
     this.size = 32;
@@ -15,7 +15,7 @@ export class Tank {
       this.size,
       y * this.size,
       x * this.size,
-      'tank' + '_' + this.direction + '_' + this.animation + '_' + this.lvl
+      "tank" + "_" + this.direction + "_" + this.animation + "_" + this.lvl
     );
   }
 
@@ -34,15 +34,15 @@ export class Tank {
     let pastDirection = this.direction;
     this.direction = direction;
     this.body.texture = PIXI.Texture.from(
-      'assets/' +
-        'tank' +
-        '_' +
+      "assets/" +
+        "tank" +
+        "_" +
         this.direction +
-        '_' +
+        "_" +
         this.animation +
-        '_' +
+        "_" +
         this.lvl +
-        '.png'
+        ".png"
     );
     // up right down left
     let dirX = [0, 0.1, 0, -0.1],
@@ -68,15 +68,15 @@ export class Tank {
     if (this.changeAnimation) {
       this.animation = (this.animation + 1) % 2;
       this.body.texture = PIXI.Texture.from(
-        'assets/' +
-          'tank' +
-          '_' +
+        "assets/" +
+          "tank" +
+          "_" +
           this.direction +
-          '_' +
+          "_" +
           this.animation +
-          '_' +
+          "_" +
           this.lvl +
-          '.png'
+          ".png"
       );
       this.changeAnimation = false;
     } else {
