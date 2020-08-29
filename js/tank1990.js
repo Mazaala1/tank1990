@@ -1,5 +1,6 @@
-import { Map } from './entities/map.js';
-import { Tank } from './entities/tank.js';
+import { Map } from "./entities/map.js";
+import { Tank } from "./entities/tank.js";
+import { Bot } from "./entities/bot.js";
 const cellSize = 32,
   width = 13,
   height = 13;
@@ -22,7 +23,7 @@ document.body.appendChild(app.view);
 
 var keyState = {};
 window.addEventListener(
-  'keydown',
+  "keydown",
   function (e) {
     if (e.keyCode != 32 && e.which != 32)
       for (let i = 37; i < 41; i++) keyState[i] = false;
@@ -31,20 +32,36 @@ window.addEventListener(
   true
 );
 window.addEventListener(
-  'keyup',
+  "keyup",
   function (e) {
     keyState[e.keyCode || e.which] = false;
     if (e.keyCode == 32 || e.which == 32) shot = false;
   },
   true
 );
-
+let botX = [6.5, 12.5, 0.5],
+  cnt = 0,
+  choose = 0;
+let bots = [];
 function playerMoveLoop() {
   // moves: left, up, right, down
-  if (keyState[37]) player.move(3, map);
-  else if (keyState[38]) player.move(0, map);
-  else if (keyState[39]) player.move(1, map);
-  else if (keyState[40]) player.move(2, map);
+  if (cnt == 100) {
+    let new_bot = new Bot(0.5, botX[choose], 2);
+    bots.push(new_bot);
+    console.log(bots);
+    gameBoard.addChild(new_bot.body);
+    choose++;
+    choose %= botX.length;
+    cnt = 0;
+  }
+  bots.forEach((bot) => {
+    bot.move();
+  });
+  if (keyState[37]) player.move(3);
+  else if (keyState[38]) player.move(0);
+  else if (keyState[39]) player.move(1);
+  else if (keyState[40]) player.move(2);
+  cnt++;
   setTimeout(playerMoveLoop, 20);
 }
 let bullets = [];
