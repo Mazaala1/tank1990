@@ -17,7 +17,6 @@ export class Tank {
       x * this.size,
       'tank' + '_' + this.direction + '_' + this.animation + '_' + this.lvl
     );
-    // map.addTank(y - 0.5, x - 0.5);
   }
 
   // TODO
@@ -102,15 +101,7 @@ export class Tank {
     if (map.wall(direction, map, this.y, this.x)) return;
     this.y += dirY[direction];
     this.x += dirX[direction];
-    if (nextY != curY || nextX != curX) {
-      // add moveCheck here
-      // map.removeTank(curY - 0.5, curX - 0.5);
-      // map.addTank(nextY - 0.5, nextX - 0.5);
-    }
-    // this.x = Math.floor(this.x * 10) / 10;
-    // this.y = Math.floor(this.y * 10) / 10;
     this.body.x = this.x * this.size;
     this.body.y = this.y * this.size;
-    // console.log(this.x, this.y);
   };
 }
