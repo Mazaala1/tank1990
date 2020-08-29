@@ -11,7 +11,7 @@ const app = new PIXI.Application({
 const gameBoard = new PIXI.Container();
 
 let map = new Map();
-let player = new Tank(12.5, 4.5, 0, map);
+let player = new Tank(12, 4, 0, map);
 let shot = false;
 
 gameBoard.addChild(player.body);

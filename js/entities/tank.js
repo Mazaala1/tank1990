@@ -7,13 +7,18 @@ export class Tank {
     this.y = y;
     this.x = x;
     this.direction = direction;
+    this.lvl = 0;
+    this.animation = 0;
     // tank asset detail : tank_{direction}_{animation}_{lvl}
+    console.log(
+      'tank' + '_' + this.direction + '_' + this.animation + '_' + this.lvl
+    );
     this.body = Renderer(
       this.size,
       this.size,
       y * this.size,
       x * this.size,
-      'tank' + direction
+      'tank' + '_' + this.direction + '_' + this.animation + '_' + this.lvl
     );
     // map.addTank(y - 0.5, x - 0.5);
   }
@@ -46,6 +51,7 @@ export class Tank {
   };
   move = (direction, map) => {
     // check
+    return;
     let arc = Math.PI / 2;
     let dirs = [];
     for (let i = 0; i < 4; i++) {
