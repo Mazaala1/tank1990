@@ -119,5 +119,7 @@ function BulletMoveLoop() {
 }
 playerMoveLoop();
 BulletMoveLoop();
+window.requestAnimationFrame(BulletMoveLoop);
+window.requestAnimationFrame(playerMoveLoop);
 setInterval(BulletMoveLoop, 25);
 setInterval(playerMoveLoop, 20);
