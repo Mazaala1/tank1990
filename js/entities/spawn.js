@@ -3,6 +3,7 @@ export class Spawn {
     this.spawnTextures = [];
     this.size = 32;
     this.len = 4;
+    this.team = 0;
     this.y = y;
     this.x = x;
     for (let i = 0; i < this.len; i++) {

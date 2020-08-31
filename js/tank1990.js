@@ -17,6 +17,7 @@ const gameBoard = new PIXI.Container();
 let shot = false;
 let map = new Map();
 let player = new Tank(12, 4, 0, map);
+console.log(player);
 
 app.stage.addChild(map.body);
 app.stage.addChild(gameBoard);
@@ -78,7 +79,7 @@ function playerMoveLoop() {
   if (cnt % 2 == 0) {
     bots.forEach((bot) => {
       if (!bot.freeze) {
-        bot.move(map);
+        bot.move(app.stage, map, bots, player);
       } else {
         setTimeout(() => {
           bot.freeze = 0;
@@ -86,10 +87,10 @@ function playerMoveLoop() {
       }
     });
   }
-  if (keyState[37]) player.move(3, map);
-  else if (keyState[38]) player.move(0, map);
-  else if (keyState[39]) player.move(1, map);
-  else if (keyState[40]) player.move(2, map);
+  if (keyState[37]) player.move(app.stage, bots, 3, map);
+  else if (keyState[38]) player.move(app.stage, bots, 0, map);
+  else if (keyState[39]) player.move(app.stage, bots, 1, map);
+  else if (keyState[40]) player.move(app.stage, bots, 2, map);
   cnt++;
   cnt %= 100;
 }

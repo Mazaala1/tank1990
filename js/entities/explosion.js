@@ -18,6 +18,7 @@ export class Explosion {
     explosion.x = x * this.size;
     explosion.width = this.size;
     explosion.height = this.size;
+    this.body = explosion;
     return explosion;
   }
 }

@@ -11,6 +11,7 @@ export class Bot {
     this.x = x;
     this.lvl = 0; //
     this.red = 0;
+    this.team = 2;
     this.animation = 0; //
     this.leftBullet = 1;
     this.rotate_freeze = 0;
@@ -42,8 +43,25 @@ export class Bot {
     this.leftBullet--;
     return bullet;
   };
-  move = (map) => {
-    if (map.wall(this.direction, map, this.y, this.x)) {
+  move = (stage, map, bots, player) => {
+    let dirX = [0, 0.1, 0, -0.1],
+      dirY = [-0.1, 0, 0.1, 0];
+    let answer = false;
+    let bulX = (this.x + dirX[this.direction]) * this.size;
+    let bulY = (this.y + dirY[this.direction]) * this.size;
+    
+    if (bulX + this.size > 13 * 32 || bulX < 0 ||
+      bulY + this.size > 13 * 32 || bulY < 0)
+        answer = true;
+    if (bulX + 32 > Math.round(player.body.x) && bulX < Math.round(player.body.x) + player.body.width) {
+      if (bulY + 32 > Math.round(player.body.y) && bulY < Math.round(player.body.y) + player.body.height) {
+        for (let i = 0; i < bots.length; i++) {
+          answer = true;
+        }
+      } 
+    }
+
+    if (answer || map.wall(this.direction, map, this.y, this.x)) {
       // rotate freeze;
       if (this.rotate_freeze == 0) {
         this.direction = Math.floor(Math.random() * 4);
