@@ -1,8 +1,8 @@
-import { Bullet } from './bullet.js';
-import { Renderer } from './renderer.js';
+import { Bullet } from "./bullet.js";
+import { Renderer } from "./renderer.js";
 
 let speed = [];
-let type = ['fast', 'armor', 'basic'];
+let type = ["fast", "armor", "basic"];
 
 export class Bot {
   constructor(y, x, direction) {
@@ -24,14 +24,14 @@ export class Bot {
       this.size,
       y * this.size,
       x * this.size,
-      'enemy_' +
-        'basic_' +
+      "enemy_" +
+        "basic_" +
         direction +
-        '_' +
+        "_" +
         this.animation +
-        '_' +
+        "_" +
         this.lvl +
-        '_' +
+        "_" +
         this.red
     );
 
@@ -43,7 +43,35 @@ export class Bot {
     this.leftBullet--;
     return bullet;
   };
-  move = (stage, map, bots, player) => {
+  rotation = (map) => {
+    let rotate = Math.floor(Math.random() * 4);
+    let mat = map.map;
+    // console.log(mat, this.y, this.x);
+    if ((rotate - this.direction + 4) % 2 == 1) {
+      this.x = (this.x * 2 + 0.5) | 0.5;
+      this.y = (this.y * 2 + 0.5) | 0.5;
+      this.y /= 2;
+      this.x /= 2;
+      this.body.x = this.x * this.size;
+      this.body.y = this.y * this.size;
+    }
+    this.direction = rotate;
+    this.body.texture = PIXI.Texture.from(
+      "assets/" +
+        "enemy_" +
+        "basic_" +
+        this.direction +
+        "_" +
+        this.animation +
+        "_" +
+        this.lvl +
+        "_" +
+        this.red +
+        ".png"
+    );
+  };
+
+  move = (map, player, bots) => {
     let dirX = [0, 0.1, 0, -0.1],
       dirY = [-0.1, 0, 0.1, 0];
     let answer = false;
@@ -64,26 +92,26 @@ export class Bot {
     if (answer || map.wall(this.direction, map, this.y, this.x)) {
       // rotate freeze;
       if (this.rotate_freeze == 0) {
-        this.direction = Math.floor(Math.random() * 4);
-
-        this.body.texture = PIXI.Texture.from(
-          'assets/' +
-            'enemy_' +
-            'basic_' +
-            this.direction +
-            '_' +
-            this.animation +
-            '_' +
-            this.lvl +
-            '_' +
-            this.red +
-            '.png'
-        );
+        this.rotation(map);
         this.rotate_freeze = 10;
       } else {
         this.rotate_freeze--;
       }
     } else {
+      let rotate = Math.floor(Math.random() * 10);
+      if (rotate <= 1) {
+        if (this.rotate_freeze == 0) {
+          this.rotation(map);
+          // console.log(this.x, this.y);
+          this.rotate_freeze = 10;
+        } else {
+          this.rotate_freeze--;
+        }
+      }
+      if (map.wall(this.direction, map, this.y, this.x)) {
+        return;
+      }
+
       let dirX = [0, 0.1, 0, -0.1],
         dirY = [-0.1, 0, 0.1, 0];
       this.y += dirY[this.direction];

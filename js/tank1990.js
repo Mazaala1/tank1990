@@ -79,7 +79,7 @@ function playerMoveLoop() {
   if (cnt % 2 == 0) {
     bots.forEach((bot) => {
       if (!bot.freeze) {
-        bot.move(app.stage, map, bots, player);
+        bot.move(map, player, bots);
       } else {
         setTimeout(() => {
           bot.freeze = 0;
@@ -107,7 +107,8 @@ function BulletMoveLoop() {
   for (let i = 0; i < bullets.length; i++) {
     let bullet = bullets[i];
     bullet.move();
-    if (bullet.collision(app.stage, map)) {
+    let answer = bullet.collision(app.stage, map, bots, player, bullets);
+    if (answer[0]) {
       let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
       gameBoard.addChild(explosion);
       setTimeout(() => {
@@ -116,6 +117,14 @@ function BulletMoveLoop() {
       gameBoard.removeChild(bullet.body);
       bullet.owner.leftBullet++;
       let temp = bullet;
+      console.log(answer[1]);
+      if (answer[1] != -1) {
+        console.log(i);
+        if (answer[1] < i) {
+          i--;
+          console.log("WTF");
+        }
+      }
       bullets[i] = bullets[bullets.length - 1];
       bullets[bullets.length - 1] = temp;
       bullets.pop();
