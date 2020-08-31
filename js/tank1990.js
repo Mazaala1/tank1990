@@ -1,28 +1,26 @@
 import { Map } from './entities/map.js';
-import { Tank } from './entities/tank.js';
-import { Explosion } from './entities/explosion.js';
-import { Spawn } from './entities/spawn.js';
 import { Bot } from './entities/bot.js';
+import { Tank } from './entities/tank.js';
+import { Spawn } from './entities/spawn.js';
+import { Explosion } from './entities/explosion.js';
 
 const cellSize = 32,
   width = 13,
   height = 13;
-  const app = new PIXI.Application({
-    width: width * cellSize,
-    height: height * cellSize,
-    backgroundColor: 0x000000,
-  });
+const app = new PIXI.Application({
+  width: width * cellSize,
+  height: height * cellSize,
+  backgroundColor: 0x000000,
+});
 const gameBoard = new PIXI.Container();
 
 let shot = false;
 let map = new Map();
-console.log(map.body.children[0]);
 let player = new Tank(12, 4, 0, map);
 
-gameBoard.addChild(player.body);
 app.stage.addChild(map.body);
 app.stage.addChild(gameBoard);
-console.log(app.stage);
+gameBoard.addChild(player.body);
 document.body.appendChild(app.view);
 
 var keyState = {};
@@ -92,39 +90,34 @@ function playerMoveLoop() {
   else if (keyState[40]) player.move(2, map);
   cnt++;
   cnt %= 100;
-  setTimeout(playerMoveLoop, 20);
 }
 
 function BulletMoveLoop() {
   if (keyState[32] && !shot) {
     let bullet = player.fire();
-    /*
-    // Explosion:
-    let explosion = new Explosion(player.y, player.x, 'big');
-    gameBoard.addChild(explosion);
-    setTimeout(() => {
-      gameBoard.removeChild(explosion);
-    }, 500);
-    */
     shot = true;
     bullets.push(bullet);
     gameBoard.addChild(bullet.body);
   }
-  // // console.log((bullets));
   for (let i = 0; i < bullets.length; i++) {
     let bullet = bullets[i];
     bullet.move();
-    // if (bullet.collision(app.stage)) {
-    //   console.log("onoson");
-    //   gameBoard.removeChild(bullet);
-    //   let temp = bullet;
-    //   bullets[i] = bullets[bullets.length - 1];
-    //   bullets[bullets.length - 1] = temp;
-    //   bullets.pop();
-    //   i--;
-    // }
+    if (bullet.collision(app.stage)) {
+      let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
+      gameBoard.addChild(explosion);
+      setTimeout(() => {
+        gameBoard.removeChild(explosion);
+      }, 500);
+      gameBoard.removeChild(bullet.body);
+      let temp = bullet;
+      bullets[i] = bullets[bullets.length - 1];
+      bullets[bullets.length - 1] = temp;
+      bullets.pop();
+      i--;
+    }
   }
-  setTimeout(BulletMoveLoop, 25);
 }
 playerMoveLoop();
 BulletMoveLoop();
+setInterval(BulletMoveLoop, 25);
+setInterval(playerMoveLoop, 20);
