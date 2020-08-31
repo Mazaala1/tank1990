@@ -43,10 +43,15 @@ export class Bot {
     this.leftBullet--;
     return bullet;
   };
-  rotation = (map) => {
-    let rotate = Math.floor(Math.random() * 4);
-    let mat = map.map;
-    // console.log(mat, this.y, this.x);
+  rotation = (direction) => {
+    let rotate;
+    let smart_move = Math.floor(Math.random() * 4);
+    console.log(smart_move, "random");
+    rotate = Math.floor(Math.random() * 4);
+    if (smart_move > 0 && direction != 2) {
+      console.log("here");
+      rotate = 2;
+    }
     if ((rotate - this.direction + 4) % 2 == 1) {
       this.x = (this.x * 2 + 0.5) | 0.5;
       this.y = (this.y * 2 + 0.5) | 0.5;
@@ -56,6 +61,7 @@ export class Bot {
       this.body.y = this.y * this.size;
     }
     this.direction = rotate;
+    console.log(this.direction, "curretn direction");
     this.body.texture = PIXI.Texture.from(
       "assets/" +
         "enemy_" +
@@ -92,7 +98,7 @@ export class Bot {
     if (answer || map.wall(this.direction, map, this.y, this.x)) {
       // rotate freeze;
       if (this.rotate_freeze == 0) {
-        this.rotation(map);
+        this.rotation(this.direction);
         this.rotate_freeze = 10;
       } else {
         this.rotate_freeze--;
@@ -101,7 +107,7 @@ export class Bot {
       let rotate = Math.floor(Math.random() * 10);
       if (rotate <= 1) {
         if (this.rotate_freeze == 0) {
-          this.rotation(map);
+          this.rotation(1);
           // console.log(this.x, this.y);
           this.rotate_freeze = 10;
         } else {
