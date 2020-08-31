@@ -27,19 +27,19 @@ export class Bullet {
     this.body.y = this.y * 32 + this.margin;
   };
 
-  collision = (stage, map) => {
-    let answer = false;
+  collision = (stage, map, bots, player, bullets) => {
+    let answer = [false, -1];
     let bulX = this.body.x,
       bulY = this.body.y;
     if (bulY <= 0 || bulX <= 0 || bulY >= 13 * 31 || bulX >= 13 * 31)
-      return true;
+      return [true, -1];
     stage.children.forEach((board) => { 
       for (let i = 0; i < board.children.length; i++) {
         let obstacle = board.children[i];
         if (bulX + 8 >= obstacle.x && bulX <= obstacle.x + obstacle.width) {
           if (bulY + 8 >= obstacle.y && bulY <= obstacle.y + obstacle.height) {
             if (obstacle.texture == PIXI.Texture.from('assets/brick.png')) {
-              answer = true;
+              answer[0] = true;
               let y = obstacle.y / 16,
               x = obstacle.x / 16;
               map.map[y][x] = 0;
@@ -47,15 +47,50 @@ export class Bullet {
               i--;
             }
             if (obstacle.texture == PIXI.Texture.from('assets/steel.png')) {
-              answer = true;
+              answer[0] = true;
               if (this.lvl > 2) {
                 i--;
                 let y = obstacle.y / 16,
                   x = obstacle.x / 16;
                   map.map[y][x] = 0;
                   board.removeChild(obstacle);
+              }
+            }
+
+            if (this.team == 1) {
+              for (let j = 0; j < bots.length; j++) {
+                if (bots[j].body === obstacle) {
+                  let temp = bots[j];
+                  bots[j] = bots[bots.length - 1];
+                  bots[bots.length - 1] = temp;
+                  bots.pop();
+                  j--;
+                  board.removeChild(obstacle);
+                  i--;
+                  answer[0] = true;
                 }
               }
+            }
+
+            if (this.team == 2) {
+              if (obstacle === player.body) {
+                // alert();
+              }
+            }
+
+            for (let j = 0; j < bullets.length; j++) {
+              if (obstacle === bullets[j].body && bullets[j].team != this.team) {
+                let temp = bullets[j];
+                bullets[j].owner.leftBullet++;
+                bullets[j] = bullets[bullets.length - 1];
+                bullets[bullets.length - 1] = temp;
+                bullets.pop();
+                j--;
+                board.removeChild(obstacle);
+                i--;
+                answer = [true, j];
+              }
+            }
           }
         }
       }
