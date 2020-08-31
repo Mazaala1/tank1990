@@ -24,36 +24,27 @@ export class Bullet {
     this.body.y = this.y * 32 + this.margin;
   };
 
-  collision = (stage) => {
+  collision = (stage, map) => {
+    // console.log(map.map);
     let answer = false;
     let bulX = this.body.x,
       bulY = this.body.y;
-    // if (this.direction % 2 == 0) {
-    //   bulX += 12;
-    // } else {
-    //   bulY += 12;
-    //   bulX += 12;
-    // }
-    // console.log(bulX, bulY);
-    stage.children.forEach(board => {
-      // console.log(board);
-      board.children.forEach(obstacle => {
-        // console.log(obstacle.x, obstacle.y);
-        //left right check
-        // console.log(obstacle.size);
-        // console.log(obstacle.width, obstacle.height);
+    stage.children.forEach((board) => {
+      board.children.forEach((obstacle) => {
         if (bulX + 8 >= obstacle.x && bulX <= obstacle.x + obstacle.width) {
-          // top bottom check
-          // console.log("ydaj x");
           if (bulY + 8 >= obstacle.y && bulY <= obstacle.y + obstacle.height) {
-            // console.log("onoson");
-            answer = true;
-            board.removeChild(obstacle);
+            if (obstacle.texture == PIXI.Texture.from('assets/brick.png')) {
+              answer = true;
+              let y = obstacle.y / 16,
+                x = obstacle.x / 16;
+              map.map[y][x] = 0;
+              board.removeChild(obstacle);
+            }
           }
         }
       });
     });
 
     return answer;
-  }
+  };
 }

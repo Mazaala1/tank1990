@@ -102,7 +102,7 @@ function BulletMoveLoop() {
   for (let i = 0; i < bullets.length; i++) {
     let bullet = bullets[i];
     bullet.move();
-    if (bullet.collision(app.stage)) {
+    if (bullet.collision(app.stage, map)) {
       let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
       gameBoard.addChild(explosion);
       setTimeout(() => {
