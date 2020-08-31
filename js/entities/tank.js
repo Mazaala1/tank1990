@@ -7,6 +7,7 @@ export class Tank {
     this.x = x;
     this.lvl = 0;
     this.size = 32;
+    this.leftBullet = 1;
     this.animation = 0;
     this.direction = direction;
     this.changeAnimation = false;
@@ -25,7 +26,9 @@ export class Tank {
   // pickBoost();
   // **
   fire = () => {
-    let bullet = new Bullet(this.y, this.x, this.direction);
+    if (this.leftBullet <= 0) return null;
+    let bullet = new Bullet(this.y, this.x, this.direction, 1, this.lvl, this);
+    this.leftBullet--;
     return bullet;
   };
 

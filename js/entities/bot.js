@@ -12,6 +12,7 @@ export class Bot {
     this.lvl = 0; //
     this.red = 0;
     this.animation = 0; //
+    this.leftBullet = 1;
     this.rotate_freeze = 0;
     this.direction = direction;
     // this.spawned = 2;
@@ -36,7 +37,9 @@ export class Bot {
     this.movingInterval = null;
   }
   fire = () => {
-    let bullet = new Bullet(this.y, this.x, this.direction);
+    if (this.leftBullet <= 0) return null;
+    let bullet = new Bullet(this.y, this.x, this.direction, 2, 1, this);
+    this.leftBullet--;
     return bullet;
   };
   move = (map) => {

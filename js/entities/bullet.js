@@ -1,11 +1,14 @@
 import { Renderer } from './renderer.js';
 export class Bullet {
-  constructor(y, x, direction) {
+  constructor(y, x, direction, team, lvl, owner) {
     this.size = 8;
     this.y = y;
     this.x = x;
+    this.lvl = lvl;
+    this.team = team;
     this.direction = direction;
     this.margin = (32 - this.size) / 2;
+    this.owner = owner;
     this.body = Renderer(
       this.size,
       this.size,
@@ -25,10 +28,11 @@ export class Bullet {
   };
 
   collision = (stage, map) => {
-    // console.log(map.map);
     let answer = false;
     let bulX = this.body.x,
       bulY = this.body.y;
+    if (bulY <= 0 || bulX <= 0 || bulY >= 13 * 31 || bulX >= 13 * 31)
+      return true;
     stage.children.forEach((board) => {
       board.children.forEach((obstacle) => {
         if (bulX + 8 >= obstacle.x && bulX <= obstacle.x + obstacle.width) {
@@ -39,6 +43,15 @@ export class Bullet {
                 x = obstacle.x / 16;
               map.map[y][x] = 0;
               board.removeChild(obstacle);
+            }
+            if (obstacle.texture == PIXI.Texture.from('assets/steel.png')) {
+              answer = true;
+              if (this.lvl > 2) {
+                let y = obstacle.y / 16,
+                  x = obstacle.x / 16;
+                map.map[y][x] = 0;
+                board.removeChild(obstacle);
+              }
             }
           }
         }

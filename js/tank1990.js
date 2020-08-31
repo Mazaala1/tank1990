@@ -68,8 +68,10 @@ function playerMoveLoop() {
       let shoot_check = Math.floor(Math.random() * 3);
       if (shoot_check == 1) {
         let bullet = bot.fire();
-        bullets.push(bullet);
-        gameBoard.addChild(bullet.body);
+        if (bullet != null) {
+          bullets.push(bullet);
+          gameBoard.addChild(bullet.body);
+        }
       }
     });
   }
@@ -95,9 +97,11 @@ function playerMoveLoop() {
 function BulletMoveLoop() {
   if (keyState[32] && !shot) {
     let bullet = player.fire();
-    shot = true;
-    bullets.push(bullet);
-    gameBoard.addChild(bullet.body);
+    if (bullet != null) {
+      shot = true;
+      bullets.push(bullet);
+      gameBoard.addChild(bullet.body);
+    }
   }
   for (let i = 0; i < bullets.length; i++) {
     let bullet = bullets[i];
@@ -109,6 +113,7 @@ function BulletMoveLoop() {
         gameBoard.removeChild(explosion);
       }, 500);
       gameBoard.removeChild(bullet.body);
+      bullet.owner.leftBullet++;
       let temp = bullet;
       bullets[i] = bullets[bullets.length - 1];
       bullets[bullets.length - 1] = temp;
