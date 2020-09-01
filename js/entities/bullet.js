@@ -75,6 +75,7 @@ export class Bullet {
             if (this.team == 2) {
               if (obstacle === player.body) {
                 // alert();
+                answer[0] = true;
               }
             }
 

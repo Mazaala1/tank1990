@@ -5,7 +5,7 @@ export class Tank {
   constructor(y, x, direction, map) {
     this.y = y;
     this.x = x;
-    this.lvl = 0;
+    this.lvl = 3;
     this.size = 32;
     this.team = 1;
     this.leftBullet = 1;
