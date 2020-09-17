@@ -17,7 +17,7 @@ const gameBoard = new PIXI.Container();
 let shot = false;
 let map = new Map();
 let player = new Tank(12, 4, 0, map);
-console.log(player);
+// console.log(player);
 
 app.stage.addChild(map.body);
 app.stage.addChild(gameBoard);
@@ -60,7 +60,7 @@ function playerMoveLoop() {
   if (cnt == 99 && bots.length < 4) {
     let speed = Math.floor(Math.random() * 2);
     speed++;
-    console.log(speed);
+    // console.log(speed);
     new_bot = new Bot(0, botX[choose], 2, speed);
     bots.push(new_bot);
     gameBoard.addChild(new_bot.body);
@@ -70,7 +70,7 @@ function playerMoveLoop() {
   let num = 0;
   if (cnt % 10 == 0) {
     bots.forEach((bot) => {
-      let shoot_check = Math.floor(Math.random() * 3);
+      let shoot_check = Math.floor(Math.random() * 10);
       if (shoot_check == 1) {
         let bullet = bot.fire(num++);
         if (bullet != null) {
@@ -122,23 +122,16 @@ function BulletMoveLoop() {
         gameBoard.removeChild(explosion);
       }, 500);
       gameBoard.removeChild(bullet.body);
-      console.log(bullet.owner, bullet.owner.leftBullet, 'to ');
+      // console.log(bullet.owner, bullet.owner.leftBullet, 'to ');
       bullet.owner.leftBullet++; // ?????
+      if (bullet.owner.leftBullet > bullet.owner.bulletmax) {
+        bullet.owner.leftBullet = bullet.owner.bulletmax;
+      }
       answer[1][i] = true;
 
-      console.log(bullet.owner.leftBullet, '??');
+      // console.log(bullet.owner.leftBullet, '??');
       // console.log(answer[1]);
       let temp = bullet;
-      // if (answer[1] != -1) {
-      // }
-      // let rm = 0;
-      // for (let m = 0; m < answer[1].length; i++) {
-      //   if (answer[1][m]) {
-      //     let tmp = bullets[m - rm];
-      //     bullets[m - rm] = bullets[bullets.length];
-      //     bullets[bullets.length] = tmp;
-      //   }
-      // }
       bullets[i] = bullets[bullets.length - 1];
       bullets[bullets.length - 1] = temp;
       bullets.pop();

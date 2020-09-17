@@ -14,8 +14,11 @@ export class Bot {
     this.red = 0;
     this.team = 2;
     this.animation = 0; //
+    this.bulletmax = 1;
     this.leftBullet = 1;
     this.rotate_freeze = 0;
+    this.types = ["basic", "armor", "speedd"];
+    this.type = Math.floor(Math.random)
     this.direction = direction;
     this.type;
     if (this.speed == 1) {
@@ -54,10 +57,10 @@ export class Bot {
   rotation = (direction) => {
     let rotate;
     let smart_move = Math.floor(Math.random() * 4);
-    // console.log(smart_move, 'random');
+    // console.log(smart_move, "random");
     rotate = Math.floor(Math.random() * 4);
     if (smart_move > 0 && direction != 2) {
-      // console.log('here');
+      // console.log("here");
       rotate = 2;
     }
     if ((rotate - this.direction + 4) % 2 == 1) {
@@ -69,7 +72,7 @@ export class Bot {
       this.body.y = this.y * this.size;
     }
     this.direction = rotate;
-    // console.log(this.direction, 'curretn direction');
+    // console.log(this.direction, "curretn direction");
     this.body.texture = PIXI.Texture.from(
       'assets/' +
         'enemy_' +

@@ -89,6 +89,9 @@ export class Bullet {
                 bullets[j].team != this.team
               ) {
                 bullets[j].owner.leftBullet++;
+                if (bullets[j].owner.leftBullet > bullets[j].owner.bulletmax) {
+                  bullets[j].owner.leftBullet = bullets[j].owner.bulletmax;
+                }
                 // answer[1][j] = true;
                 let tmp = bullets[j];
                 bullets[j] = bullets[bullets.length - 1];

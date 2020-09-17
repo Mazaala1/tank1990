@@ -8,6 +8,7 @@ export class Tank {
     this.lvl = 3;
     this.size = 32;
     this.team = 1;
+    this.bulletmax = 1;
     this.leftBullet = 1;
     this.animation = 0;
     this.direction = direction;
