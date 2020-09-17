@@ -30,7 +30,7 @@ export class Bot {
     }
     console.log(this.type, 'type');
     // this.spawned = 2;
-    // tank asset detail : enemy_{direction}_{animation}_{lvl}_{red : 1 , not : 0}
+    // tank asset detail : enemy_{type}_{direction}_{animation}_{lvl}_{red : 1 , not : 0}
 
     this.body = Renderer(
       this.size,
