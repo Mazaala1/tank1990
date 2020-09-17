@@ -2,7 +2,7 @@ import { Bullet } from './bullet.js';
 import { Renderer } from './renderer.js';
 
 let speed = [];
-let type = ['fast', 'armor', 'basic'];
+let type = ['fast_', 'armor_', 'basic_'];
 
 export class Bot {
   constructor(y, x, direction, speed) {
@@ -20,13 +20,15 @@ export class Bot {
     this.types = ["basic", "armor", "speedd"];
     this.type = Math.floor(Math.random)
     this.direction = direction;
-    this.type;
-    if (this.speed == 1) {
-      this.type = 'fast_';
-    } else {
-      this.type = 'basic_';
+    this.hp = 1;
+    this.type = Math.floor(Math.random() * 3);
+    if (this.type == 0) {
+      this.speed = 1;
     }
-
+    if (this.type == 1) {
+      this.hp = 2;
+    }
+    console.log(this.type, 'type');
     // this.spawned = 2;
     // tank asset detail : enemy_{direction}_{animation}_{lvl}_{red : 1 , not : 0}
 
@@ -36,7 +38,7 @@ export class Bot {
       y * this.size,
       x * this.size,
       'enemy_' +
-        this.type +
+        type[this.type] +
         direction +
         '_' +
         this.animation +
@@ -76,7 +78,7 @@ export class Bot {
     this.body.texture = PIXI.Texture.from(
       'assets/' +
         'enemy_' +
-        this.type +
+        type[this.type] +
         this.direction +
         '_' +
         this.animation +
