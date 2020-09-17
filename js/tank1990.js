@@ -3,6 +3,7 @@ import { Bot } from './entities/bot.js';
 import { Tank } from './entities/tank.js';
 import { Spawn } from './entities/spawn.js';
 import { Explosion } from './entities/explosion.js';
+import { Renderer } from './entities/renderer.js';
 
 const cellSize = 32,
   width = 13,
@@ -16,8 +17,7 @@ const gameBoard = new PIXI.Container();
 
 let shot = false;
 let map = new Map();
-let player = new Tank(12, 4, 0, map);
-console.log(player);
+let player = new Tank(12, 4, 0, map), gameLoop1, gameLoop2;
 
 app.stage.addChild(map.body);
 app.stage.addChild(gameBoard);
@@ -104,6 +104,8 @@ function playerMoveLoop() {
 
 function BulletMoveLoop() {
   if (keyState[32] && !shot) {
+    gameOver(gameLoop1, gameLoop2);
+    return;
     let bullet = player.fire();
     if (bullet != null) {
       shot = true;
@@ -149,9 +151,30 @@ function BulletMoveLoop() {
     }
   }
 }
-playerMoveLoop();
-BulletMoveLoop();
+// playerMoveLoop();
+// BulletMoveLoop();
 window.requestAnimationFrame(BulletMoveLoop);
 window.requestAnimationFrame(playerMoveLoop);
-setInterval(BulletMoveLoop, 25);
-setInterval(playerMoveLoop, 20);
+gameLoop1 = setInterval(BulletMoveLoop, 25);
+gameLoop2 = setInterval(playerMoveLoop, 20);
+function gameOver(loop1, loop2) {
+  clearInterval(loop1);
+  clearInterval(loop2); 
+  // alert();
+  let gameOverElement = Renderer(200, 100, 0, (width * cellSize - 200) / 2, 'gameOver');
+  gameBoard.addChild(gameOverElement);
+  app.stage.children.forEach((el) => {
+    app.stage.removeChild(el);
+    if (el == PIXI.Container) {
+      el.children.forEach((el1) => {
+        el.removeChild(el);
+      })
+    }
+  });
+  console.log(height, cellSize);
+  let lastInterval = setInterval(() => {
+    gameOverElement.y++;
+    // console.log(gameOverElement.y, height * cellSize / 2);
+    if (gameOverElement.y == (height * cellSize - 100) / 2) clearInterval(lastInterval);
+  }, 10);
+}
