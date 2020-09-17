@@ -58,17 +58,21 @@ function playerMoveLoop() {
     }, 500);
   }
   if (cnt == 99 && bots.length < 4) {
-    new_bot = new Bot(0, botX[choose], 2);
+    let speed = Math.floor(Math.random() * 2);
+    speed++;
+    console.log(speed);
+    new_bot = new Bot(0, botX[choose], 2, speed);
     bots.push(new_bot);
     gameBoard.addChild(new_bot.body);
     choose++;
     choose %= botX.length;
   }
+  let num = 0;
   if (cnt % 10 == 0) {
     bots.forEach((bot) => {
       let shoot_check = Math.floor(Math.random() * 3);
       if (shoot_check == 1) {
-        let bullet = bot.fire();
+        let bullet = bot.fire(num++);
         if (bullet != null) {
           bullets.push(bullet);
           gameBoard.addChild(bullet.body);
@@ -76,17 +80,20 @@ function playerMoveLoop() {
       }
     });
   }
-  if (cnt % 2 == 0) {
-    bots.forEach((bot) => {
-      if (!bot.freeze) {
+  // if (cnt % 2 == 0) {
+  bots.forEach((bot) => {
+    if (!bot.freeze) {
+      // console.log(cnt, bot.speed);
+      if (cnt % bot.speed == 0) {
         bot.move(map, player, bots);
-      } else {
-        setTimeout(() => {
-          bot.freeze = 0;
-        }, 5000);
       }
-    });
-  }
+    } else {
+      setTimeout(() => {
+        bot.freeze = 0;
+      }, 5000);
+    }
+  });
+  // }
   if (keyState[37]) player.move(app.stage, bots, 3, map);
   else if (keyState[38]) player.move(app.stage, bots, 0, map);
   else if (keyState[39]) player.move(app.stage, bots, 1, map);
@@ -115,19 +122,27 @@ function BulletMoveLoop() {
         gameBoard.removeChild(explosion);
       }, 500);
       gameBoard.removeChild(bullet.body);
-      bullet.owner.leftBullet++;
+      console.log(bullet.owner, bullet.owner.leftBullet, 'to ');
+      bullet.owner.leftBullet++; // ?????
+      answer[1][i] = true;
+
+      console.log(bullet.owner.leftBullet, '??');
+      // console.log(answer[1]);
       let temp = bullet;
-      console.log(answer[1]);
-      if (answer[1] != -1) {
-        console.log(i);
-        if (answer[1] < i) {
-          i--;
-          console.log("WTF");
-        }
-      }
+      // if (answer[1] != -1) {
+      // }
+      // let rm = 0;
+      // for (let m = 0; m < answer[1].length; i++) {
+      //   if (answer[1][m]) {
+      //     let tmp = bullets[m - rm];
+      //     bullets[m - rm] = bullets[bullets.length];
+      //     bullets[bullets.length] = tmp;
+      //   }
+      // }
       bullets[i] = bullets[bullets.length - 1];
       bullets[bullets.length - 1] = temp;
       bullets.pop();
+      // i -= answer[1];
       i--;
     }
   }

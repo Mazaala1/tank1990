@@ -1,11 +1,12 @@
-import { Bullet } from "./bullet.js";
-import { Renderer } from "./renderer.js";
+import { Bullet } from './bullet.js';
+import { Renderer } from './renderer.js';
 
 let speed = [];
-let type = ["fast", "armor", "basic"];
+let type = ['fast', 'armor', 'basic'];
 
 export class Bot {
-  constructor(y, x, direction) {
+  constructor(y, x, direction, speed) {
+    this.speed = speed;
     this.size = 32;
     this.y = y;
     this.x = x;
@@ -16,6 +17,13 @@ export class Bot {
     this.leftBullet = 1;
     this.rotate_freeze = 0;
     this.direction = direction;
+    this.type;
+    if (this.speed == 1) {
+      this.type = 'fast_';
+    } else {
+      this.type = 'basic_';
+    }
+
     // this.spawned = 2;
     // tank asset detail : enemy_{direction}_{animation}_{lvl}_{red : 1 , not : 0}
 
@@ -24,32 +32,32 @@ export class Bot {
       this.size,
       y * this.size,
       x * this.size,
-      "enemy_" +
-        "basic_" +
+      'enemy_' +
+        this.type +
         direction +
-        "_" +
+        '_' +
         this.animation +
-        "_" +
+        '_' +
         this.lvl +
-        "_" +
+        '_' +
         this.red
     );
 
     this.movingInterval = null;
   }
-  fire = () => {
+  fire = (num) => {
     if (this.leftBullet <= 0) return null;
-    let bullet = new Bullet(this.y, this.x, this.direction, 2, 1, this);
+    let bullet = new Bullet(this.y, this.x, this.direction, 2, 1, this, num);
     this.leftBullet--;
     return bullet;
   };
   rotation = (direction) => {
     let rotate;
     let smart_move = Math.floor(Math.random() * 4);
-    console.log(smart_move, "random");
+    // console.log(smart_move, 'random');
     rotate = Math.floor(Math.random() * 4);
     if (smart_move > 0 && direction != 2) {
-      console.log("here");
+      // console.log('here');
       rotate = 2;
     }
     if ((rotate - this.direction + 4) % 2 == 1) {
@@ -61,19 +69,19 @@ export class Bot {
       this.body.y = this.y * this.size;
     }
     this.direction = rotate;
-    console.log(this.direction, "curretn direction");
+    // console.log(this.direction, 'curretn direction');
     this.body.texture = PIXI.Texture.from(
-      "assets/" +
-        "enemy_" +
-        "basic_" +
+      'assets/' +
+        'enemy_' +
+        this.type +
         this.direction +
-        "_" +
+        '_' +
         this.animation +
-        "_" +
+        '_' +
         this.lvl +
-        "_" +
+        '_' +
         this.red +
-        ".png"
+        '.png'
     );
   };
 
@@ -83,16 +91,26 @@ export class Bot {
     let answer = false;
     let bulX = (this.x + dirX[this.direction]) * this.size;
     let bulY = (this.y + dirY[this.direction]) * this.size;
-    
-    if (bulX + this.size > 13 * 32 || bulX < 0 ||
-      bulY + this.size > 13 * 32 || bulY < 0)
-        answer = true;
-    if (bulX + 32 > Math.round(player.body.x) && bulX < Math.round(player.body.x) + player.body.width) {
-      if (bulY + 32 > Math.round(player.body.y) && bulY < Math.round(player.body.y) + player.body.height) {
+
+    if (
+      bulX + this.size > 13 * 32 ||
+      bulX < 0 ||
+      bulY + this.size > 13 * 32 ||
+      bulY < 0
+    )
+      answer = true;
+    if (
+      bulX + 32 > Math.round(player.body.x) &&
+      bulX < Math.round(player.body.x) + player.body.width
+    ) {
+      if (
+        bulY + 32 > Math.round(player.body.y) &&
+        bulY < Math.round(player.body.y) + player.body.height
+      ) {
         for (let i = 0; i < bots.length; i++) {
           answer = true;
         }
-      } 
+      }
     }
 
     if (answer || map.wall(this.direction, map, this.y, this.x)) {

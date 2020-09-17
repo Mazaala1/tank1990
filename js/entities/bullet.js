@@ -1,6 +1,7 @@
 import { Renderer } from './renderer.js';
 export class Bullet {
-  constructor(y, x, direction, team, lvl, owner) {
+  constructor(y, x, direction, team, lvl, owner, num) {
+    this.num = num;
     this.size = 8;
     this.y = y;
     this.x = x;
@@ -28,12 +29,15 @@ export class Bullet {
   };
 
   collision = (stage, map, bots, player, bullets) => {
-    let answer = [false, -1];
+    let answer = [false, new Array()];
+    for (let i = 0; i < bullets.length; i++) {
+      answer[1].push(false);
+    }
     let bulX = this.body.x,
       bulY = this.body.y;
     if (bulY <= 0 || bulX <= 0 || bulY >= 13 * 31 || bulX >= 13 * 31)
-      return [true, -1];
-    stage.children.forEach((board) => { 
+      return [true, bullets];
+    stage.children.forEach((board) => {
       for (let i = 0; i < board.children.length; i++) {
         let obstacle = board.children[i];
         if (bulX + 8 >= obstacle.x && bulX <= obstacle.x + obstacle.width) {
@@ -41,7 +45,7 @@ export class Bullet {
             if (obstacle.texture == PIXI.Texture.from('assets/brick.png')) {
               answer[0] = true;
               let y = obstacle.y / 16,
-              x = obstacle.x / 16;
+                x = obstacle.x / 16;
               map.map[y][x] = 0;
               board.removeChild(obstacle);
               i--;
@@ -52,8 +56,8 @@ export class Bullet {
                 i--;
                 let y = obstacle.y / 16,
                   x = obstacle.x / 16;
-                  map.map[y][x] = 0;
-                  board.removeChild(obstacle);
+                map.map[y][x] = 0;
+                board.removeChild(obstacle);
               }
             }
 
@@ -80,16 +84,20 @@ export class Bullet {
             }
 
             for (let j = 0; j < bullets.length; j++) {
-              if (obstacle === bullets[j].body && bullets[j].team != this.team) {
-                let temp = bullets[j];
+              if (
+                obstacle === bullets[j].body &&
+                bullets[j].team != this.team
+              ) {
                 bullets[j].owner.leftBullet++;
+                // answer[1][j] = true;
+                let tmp = bullets[j];
                 bullets[j] = bullets[bullets.length - 1];
-                bullets[bullets.length - 1] = temp;
+                bullets[bullets.length - 1] = tmp;
+                board.removeChild(obstacle);
                 bullets.pop();
                 j--;
-                board.removeChild(obstacle);
+                answer[0] = true;
                 i--;
-                answer = [true, j];
               }
             }
           }
