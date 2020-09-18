@@ -29,7 +29,7 @@ export class Bullet {
   };
 
   collision = (stage, map, bots, player, bullets) => {
-    let answer = [false, new Array()];
+    let answer = [false, new Array(), false];
     for (let i = 0; i < bullets.length; i++) {
       answer[1].push(false);
     }
@@ -42,6 +42,9 @@ export class Bullet {
         let obstacle = board.children[i];
         if (bulX + 8 >= obstacle.x && bulX <= obstacle.x + obstacle.width) {
           if (bulY + 8 >= obstacle.y && bulY <= obstacle.y + obstacle.height) {
+            if (obstacle.texture == PIXI.Texture.from('assets/base.png')) {
+              answer[2] = true;
+            }
             if (obstacle.texture == PIXI.Texture.from('assets/brick.png')) {
               answer[0] = true;
               let y = obstacle.y / 16,

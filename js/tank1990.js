@@ -102,10 +102,14 @@ function playerMoveLoop() {
   cnt %= 100;
 }
 
+function GameOver(inter1, inter2) {
+  // clearInterval(inter1);
+  // clearInterval(inter2);
+  // alert("game over");
+}
+
 function BulletMoveLoop() {
   if (keyState[32] && !shot) {
-    gameOver(gameLoop1, gameLoop2);
-    return;
     let bullet = player.fire();
     if (bullet != null) {
       shot = true;
@@ -117,6 +121,10 @@ function BulletMoveLoop() {
     let bullet = bullets[i];
     bullet.move();
     let answer = bullet.collision(app.stage, map, bots, player, bullets);
+    if (answer[2])  {
+      gameOver(gameLoop1, gameLoop2);
+      return;
+    }
     if (answer[0]) {
       let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
       gameBoard.addChild(explosion);
@@ -126,6 +134,9 @@ function BulletMoveLoop() {
       gameBoard.removeChild(bullet.body);
       // console.log(bullet.owner, bullet.owner.leftBullet, 'to ');
       bullet.owner.leftBullet++; // ?????
+      if (bullet.owner.leftBullet > bullet.owner.bulletmax) {
+        bullet.owner.leftBullet = bullet.owner.bulletmax;
+      }
       answer[1][i] = true;
 
       if (bullet.owner === player) {
