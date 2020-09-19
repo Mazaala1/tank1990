@@ -17,8 +17,8 @@ export class Bot {
     this.bulletmax = 1;
     this.leftBullet = 1;
     this.rotate_freeze = 0;
-    this.types = ["basic", "armor", "speedd"];
-    this.type = Math.floor(Math.random)
+    this.types = ['basic', 'armor', 'speedd'];
+    this.type = Math.floor(Math.random);
     this.direction = direction;
     this.hp = 1;
     this.type = Math.floor(Math.random() * 3);
@@ -90,7 +90,7 @@ export class Bot {
     );
   };
 
-  move = (map, player, bots) => {
+  move = (map, players, bots) => {
     let dirX = [0, 0.1, 0, -0.1],
       dirY = [-0.1, 0, 0.1, 0];
     let answer = false;
@@ -104,19 +104,21 @@ export class Bot {
       bulY < 0
     )
       answer = true;
-    if (
-      bulX + 32 > Math.round(player.body.x) &&
-      bulX < Math.round(player.body.x) + player.body.width
-    ) {
+    players.forEach((player) => {
       if (
-        bulY + 32 > Math.round(player.body.y) &&
-        bulY < Math.round(player.body.y) + player.body.height
+        bulX + 32 > Math.round(player.body.x) &&
+        bulX < Math.round(player.body.x) + player.body.width
       ) {
-        for (let i = 0; i < bots.length; i++) {
-          answer = true;
+        if (
+          bulY + 32 > Math.round(player.body.y) &&
+          bulY < Math.round(player.body.y) + player.body.height
+        ) {
+          for (let i = 0; i < bots.length; i++) {
+            answer = true;
+          }
         }
       }
-    }
+    });
 
     if (answer || map.wall(this.direction, map, this.y, this.x)) {
       // rotate freeze;

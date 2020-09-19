@@ -15,21 +15,32 @@ const app = new PIXI.Application({
 });
 const gameBoard = new PIXI.Container();
 
-let shot = false;
+// let shot = false;
 let map = new Map();
-let player = new Tank(12, 4, 0, map), gameLoop1, gameLoop2;
+let p2 = new Tank(12, 8, 0, 0);
+let p1 = new Tank(12, 4, 0, 0),
+  gameLoop1,
+  gameLoop2;
+let players = [];
+players.push(p1);
+players.push(p2);
+// console.log(players);
 
 app.stage.addChild(map.body);
 app.stage.addChild(gameBoard);
-gameBoard.addChild(player.body);
+players.forEach((player) => {
+  gameBoard.addChild(player.body);
+});
 document.body.appendChild(app.view);
 
 var keyState = {};
 window.addEventListener(
   'keydown',
   function (e) {
-    if (e.keyCode != 32 && e.which != 32)
-      for (let i = 37; i < 41; i++) keyState[i] = false;
+    // if (e.keyCode != 32 && e.which != 32) {
+    //   console.log('here');
+    //   for (let i = 37; i < 41; i++) keyState[i] = false;
+    // }
     keyState[e.keyCode || e.which] = true;
   },
   true
@@ -38,7 +49,7 @@ window.addEventListener(
   'keyup',
   function (e) {
     keyState[e.keyCode || e.which] = false;
-    if (e.keyCode == 32 || e.which == 32) shot = false;
+    // if (e.keyCode == 32 || e.which == 32) shot = false;
   },
   true
 );
@@ -48,6 +59,7 @@ let new_bot,
   choose = 0,
   bullets = [],
   botX = [6, 12, 0];
+
 function playerMoveLoop() {
   //moves: left, up, right, down
   if (cnt == 70 && bots.length < 4) {
@@ -85,7 +97,7 @@ function playerMoveLoop() {
     if (!bot.freeze) {
       // console.log(cnt, bot.speed);
       if (cnt % bot.speed == 0) {
-        bot.move(map, player, bots);
+        bot.move(map, players, bots);
       }
     } else {
       setTimeout(() => {
@@ -94,12 +106,19 @@ function playerMoveLoop() {
     }
   });
   // }
-  if (keyState[37]) player.move(app.stage, bots, 3, map);
-  else if (keyState[38]) player.move(app.stage, bots, 0, map);
-  else if (keyState[39]) player.move(app.stage, bots, 1, map);
-  else if (keyState[40]) player.move(app.stage, bots, 2, map);
+  if (keyState[37]) players[0].move(app.stage, bots, 3, map);
+  if (keyState[38]) players[0].move(app.stage, bots, 0, map);
+  if (keyState[39]) players[0].move(app.stage, bots, 1, map);
+  if (keyState[40]) players[0].move(app.stage, bots, 2, map);
+  if (keyState[65]) players[1].move(app.stage, bots, 3, map);
+  if (keyState[87]) players[1].move(app.stage, bots, 0, map);
+  if (keyState[68]) players[1].move(app.stage, bots, 1, map);
+  if (keyState[83]) players[1].move(app.stage, bots, 2, map);
+  // else if (keyState[68]) players[1].move(app.stage, bots, 4, map);
+  // else if (keyState[87]) players[1].move(app.stage, bots, 0, map);
   cnt++;
   cnt %= 100;
+  // console.log(keyState);
 }
 
 function GameOver(inter1, inter2) {
@@ -109,10 +128,18 @@ function GameOver(inter1, inter2) {
 }
 
 function BulletMoveLoop() {
-  if (keyState[32] && !shot) {
-    let bullet = player.fire();
+  // console.log(players[0].shot);
+  if (keyState[32]) {
+    // console.log('here');
+    let bullet = players[0].fire();
     if (bullet != null) {
-      shot = true;
+      bullets.push(bullet);
+      gameBoard.addChild(bullet.body);
+    }
+  }
+  if (keyState[90]) {
+    let bullet = players[1].fire();
+    if (bullet != null) {
       bullets.push(bullet);
       gameBoard.addChild(bullet.body);
     }
@@ -120,8 +147,8 @@ function BulletMoveLoop() {
   for (let i = 0; i < bullets.length; i++) {
     let bullet = bullets[i];
     bullet.move();
-    let answer = bullet.collision(app.stage, map, bots, player, bullets);
-    if (answer[2])  {
+    let answer = bullet.collision(app.stage, map, bots, players, bullets);
+    if (answer[2]) {
       gameOver(gameLoop1, gameLoop2);
       return;
     }
@@ -139,7 +166,7 @@ function BulletMoveLoop() {
       }
       answer[1][i] = true;
 
-      if (bullet.owner === player) {
+      if (bullet.owner === players[0]) {
         console.log(bullet.owner.leftBullet, '??');
       }
       // console.log(answer[1]);
@@ -170,22 +197,29 @@ gameLoop1 = setInterval(BulletMoveLoop, 25);
 gameLoop2 = setInterval(playerMoveLoop, 20);
 function gameOver(loop1, loop2) {
   clearInterval(loop1);
-  clearInterval(loop2); 
+  clearInterval(loop2);
   // alert();
-  let gameOverElement = Renderer(200, 100, 0, (width * cellSize - 200) / 2, 'gameOver');
+  let gameOverElement = Renderer(
+    200,
+    100,
+    0,
+    (width * cellSize - 200) / 2,
+    'gameOver'
+  );
   gameBoard.addChild(gameOverElement);
   app.stage.children.forEach((el) => {
     app.stage.removeChild(el);
     if (el == PIXI.Container) {
       el.children.forEach((el1) => {
         el.removeChild(el);
-      })
+      });
     }
   });
   console.log(height, cellSize);
   let lastInterval = setInterval(() => {
     gameOverElement.y++;
     // console.log(gameOverElement.y, height * cellSize / 2);
-    if (gameOverElement.y == (height * cellSize - 100) / 2) clearInterval(lastInterval);
+    if (gameOverElement.y == (height * cellSize - 100) / 2)
+      clearInterval(lastInterval);
   }, 10);
 }

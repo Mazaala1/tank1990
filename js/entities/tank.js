@@ -1,25 +1,43 @@
 import { Bullet } from './bullet.js';
 import { Renderer } from './renderer.js';
 
+const players = ['tank', 'tank1'];
+
 export class Tank {
-  constructor(y, x, direction, map) {
+  constructor(y, x, direction, player_index) {
     this.y = y;
     this.x = x;
-    this.lvl = 3;
+    this.lvl = 0;
     this.size = 32;
     this.team = 1;
+    // this.shot = false;
     this.bulletmax = 1;
     this.leftBullet = 1;
     this.animation = 0;
     this.direction = direction;
     this.changeAnimation = false;
     // tank asset detail : tank_{direction}_{animation}_{lvl}
+    console.log(
+      players[player_index] +
+        '_' +
+        this.direction +
+        '_' +
+        this.animation +
+        '_' +
+        this.lvl
+    );
     this.body = Renderer(
       this.size,
       this.size,
       y * this.size,
       x * this.size,
-      'tank' + '_' + this.direction + '_' + this.animation + '_' + this.lvl
+      players[player_index] +
+        '_' +
+        this.direction +
+        '_' +
+        this.animation +
+        '_' +
+        this.lvl
     );
   }
   // TODO
@@ -89,15 +107,25 @@ export class Tank {
     let answer = false;
     let bulX = (this.x + dirX[direction]) * this.size;
     let bulY = (this.y + dirY[direction]) * this.size;
-    
-    if (bulX + this.size > 13 * 32 || bulX < 0 ||
-      bulY + this.size > 13 * 32 || bulY < 0)
-        answer = true;
+
+    if (
+      bulX + this.size > 13 * 32 ||
+      bulX < 0 ||
+      bulY + this.size > 13 * 32 ||
+      bulY < 0
+    )
+      answer = true;
     bots.forEach((obstacle) => {
-      if (bulX + 31 > obstacle.body.x && bulX < obstacle.body.x + obstacle.body.width) {
-        if (bulY + 31 > obstacle.body.y && bulY < obstacle.body.y + obstacle.body.height) {
+      if (
+        bulX + 31 > obstacle.body.x &&
+        bulX < obstacle.body.x + obstacle.body.width
+      ) {
+        if (
+          bulY + 31 > obstacle.body.y &&
+          bulY < obstacle.body.y + obstacle.body.height
+        ) {
           answer = true;
-        } 
+        }
       }
     });
     if (answer || map.wall(direction, map, this.y, this.x)) return;

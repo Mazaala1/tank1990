@@ -28,7 +28,7 @@ export class Bullet {
     this.body.y = this.y * 32 + this.margin;
   };
 
-  collision = (stage, map, bots, player, bullets) => {
+  collision = (stage, map, bots, players, bullets) => {
     let answer = [false, new Array(), false];
     for (let i = 0; i < bullets.length; i++) {
       answer[1].push(false);
@@ -80,10 +80,12 @@ export class Bullet {
             }
 
             if (this.team == 2) {
-              if (obstacle === player.body) {
-                // alert();
-                answer[0] = true;
-              }
+              players.forEach((player) => {
+                if (obstacle === player.body) {
+                  // alert();
+                  answer[0] = true;
+                }
+              });
             }
 
             for (let j = 0; j < bullets.length; j++) {
