@@ -1,6 +1,6 @@
 import { Bullet } from './bullet.js';
 import { Renderer } from './renderer.js';
-import { useBoost} from './boost.js';
+import { useBoost } from './boost.js';
 
 const players = ['tank', 'tank1'];
 
@@ -137,7 +137,7 @@ export class Tank {
       let obstacle = boosters[i].body;
       if (bulX + 31 > obstacle.x && bulX < obstacle.x + obstacle.width) {
         if (bulY + 31 > obstacle.y && bulY < obstacle.y + obstacle.height) {
-          if (useBoost(boosters[i], this, bots, stage, gameBoard, map)){
+          if (useBoost(boosters[i], this, bots, stage, gameBoard, map)) {
             returnanswer = true;
           }
           gameBoard.removeChild(obstacle);
@@ -146,16 +146,18 @@ export class Tank {
           boosters[boosters.length - 1] = tmp;
           boosters.pop();
           i--;
-        } 
+        }
       }
     }
-    
+
     if (answer || map.wall(direction, map, this.y, this.x)) return returnanswer;
     this.y += dirY[direction];
     this.x += dirX[direction];
     this.body.x = this.x * this.size;
     this.body.y = this.y * this.size;
 
+    shield.x = this.body.x;
+    shield.y = this.body.y;
     return returnanswer;
   };
 }
