@@ -10,6 +10,7 @@ export class Tank {
     this.lvl = 0;
     this.size = 32;
     this.team = 1;
+    this.life = 2;
     // this.shot = false;
     this.bulletmax = 1;
     this.leftBullet = 1;

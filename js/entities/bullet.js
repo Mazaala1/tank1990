@@ -80,12 +80,25 @@ export class Bullet {
             }
 
             if (this.team == 2) {
-              players.forEach((player) => {
-                if (obstacle === player.body) {
-                  // alert();
+              let y = [12, 12];
+              let x = [4, 8];
+              for (let i = 0; i < players.length; i++) {
+                // players.forEach((player) => {
+                if (obstacle === players[i].body) {
+                  players[i].life--;
+                  if (players[i].life > 0) {
+                    players[i].x = x[i];
+                    players[i].y = y[i];
+                  } else {
+                    board.removeChild(obstacle);
+                    players[i].leftBullet = -1;
+                    console.log(players, players.length);
+                  }
+                  // console.log('player', i, players[i].x, players[i].y);
+                  // alert('gege');
                   answer[0] = true;
                 }
-              });
+              }
             }
 
             for (let j = 0; j < bullets.length; j++) {
