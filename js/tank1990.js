@@ -2,10 +2,9 @@ import { Map } from './entities/map.js';
 import { Bot } from './entities/bot.js';
 import { Tank } from './entities/tank.js';
 import { Spawn } from './entities/spawn.js';
-import { Shield } from './entities/shield.js';
 import { Explosion } from './entities/explosion.js';
 import { Renderer } from './entities/renderer.js';
-import { Boost } from './entities/boost.js'; 
+import { Boost } from './entities/boost.js';
 
 const cellSize = 32,
   width = 13,
@@ -15,206 +14,33 @@ const app = new PIXI.Application({
   height: height * cellSize,
   backgroundColor: 0x000000,
 });
-app.loader.baseUrl = 'assets';
-app.loader
-  .add('sprite001', 'base.png')
-  .add('sprite002', 'base_destroyed.png')
-  .add('sprite003', 'big_explosion0.png')
-  .add('sprite004', 'big_explosion1.png')
-  .add('sprite005', 'big_explosion2.png')
-  .add('sprite006', 'big_explosion3.png')
-  .add('sprite007', 'big_explosion4.png')
-  .add('sprite008', 'brick.png')
-  .add('sprite009', 'bullet0.png')
-  .add('sprite010', 'bullet1.png')
-  .add('sprite011', 'bullet2.png')
-  .add('sprite012', 'bullet3.png')
-  .add('sprite013', 'bullet_explosion0.png')
-  .add('sprite014', 'bullet_explosion1.png')
-  .add('sprite015', 'bullet_explosion2.png')
-  .add('sprite016', 'enemy_armor_0_0_0_0.png')
-  .add('sprite017', 'enemy_armor_0_0_0_1.png')
-  .add('sprite018', 'enemy_armor_0_0_1.png')
-  .add('sprite019', 'enemy_armor_0_0_1_1.png')
-  .add('sprite020', 'enemy_armor_0_1_0_0.png')
-  .add('sprite021', 'enemy_armor_0_1_1.png')
-  .add('sprite022', 'enemy_armor_0_2_0_0.png')
-  .add('sprite023', 'enemy_armor_0_2_1.png')
-  .add('sprite024', 'enemy_armor_1_0_0_0.png')
-  .add('sprite025', 'enemy_armor_1_0_0_1.png')
-  .add('sprite026', 'enemy_armor_1_0_1.png')
-  .add('sprite027', 'enemy_armor_1_0_1_1.png')
-  .add('sprite028', 'enemy_armor_1_1_0_0.png')
-  .add('sprite029', 'enemy_armor_1_1_1.png')
-  .add('sprite030', 'enemy_armor_1_2_0_0.png')
-  .add('sprite031', 'enemy_armor_1_2_1.png')
-  .add('sprite032', 'enemy_armor_2_0_0_0.png')
-  .add('sprite033', 'enemy_armor_2_0_0_1.png')
-  .add('sprite034', 'enemy_armor_2_0_1.png')
-  .add('sprite035', 'enemy_armor_2_0_1_1.png')
-  .add('sprite036', 'enemy_armor_2_1_0_0.png')
-  .add('sprite037', 'enemy_armor_2_1_1.png')
-  .add('sprite038', 'enemy_armor_2_2_0_0.png')
-  .add('sprite039', 'enemy_armor_2_2_1.png')
-  .add('sprite040', 'enemy_armor_3_0_0_0.png')
-  .add('sprite041', 'enemy_armor_3_0_0_1.png')
-  .add('sprite042', 'enemy_armor_3_0_1.png')
-  .add('sprite043', 'enemy_armor_3_0_1_1.png')
-  .add('sprite044', 'enemy_armor_3_1_0_0.png')
-  .add('sprite045', 'enemy_armor_3_1_1.png')
-  .add('sprite046', 'enemy_armor_3_2_0_0.png')
-  .add('sprite047', 'enemy_armor_3_2_1.png')
-  .add('sprite048', 'enemy_basic_0_0_0_0.png')
-  .add('sprite049', 'enemy_basic_0_0_0_1.png')
-  .add('sprite050', 'enemy_basic_0_0_1.png')
-  .add('sprite051', 'enemy_basic_0_0_1_1.png')
-  .add('sprite052', 'enemy_basic_1_0_0_0.png')
-  .add('sprite053', 'enemy_basic_1_0_0_1.png')
-  .add('sprite054', 'enemy_basic_1_0_1.png')
-  .add('sprite055', 'enemy_basic_1_0_1_1.png')
-  .add('sprite056', 'enemy_basic_2_0_0_0.png')
-  .add('sprite057', 'enemy_basic_2_0_0_1.png')
-  .add('sprite058', 'enemy_basic_2_0_1.png')
-  .add('sprite059', 'enemy_basic_2_0_1_1.png')
-  .add('sprite060', 'enemy_basic_3_0_0_0.png')
-  .add('sprite061', 'enemy_basic_3_0_0_1.png')
-  .add('sprite062', 'enemy_basic_3_0_1.png')
-  .add('sprite063', 'enemy_basic_3_0_1_1.png')
-  .add('sprite064', 'enemy_fast_0_0_0_0.png')
-  .add('sprite065', 'enemy_fast_0_0_0_1.png')
-  .add('sprite066', 'enemy_fast_0_0_1.png')
-  .add('sprite067', 'enemy_fast_0_0_1_1.png')
-  .add('sprite068', 'enemy_fast_1_0_0_0.png')
-  .add('sprite069', 'enemy_fast_1_0_0_1.png')
-  .add('sprite070', 'enemy_fast_1_0_1.png')
-  .add('sprite071', 'enemy_fast_1_0_1_1.png')
-  .add('sprite072', 'enemy_fast_2_0_0_0.png')
-  .add('sprite073', 'enemy_fast_2_0_0_1.png')
-  .add('sprite074', 'enemy_fast_2_0_1.png')
-  .add('sprite075', 'enemy_fast_2_0_1_1.png')
-  .add('sprite076', 'enemy_fast_3_0_0_0.png')
-  .add('sprite077', 'enemy_fast_3_0_0_1.png')
-  .add('sprite078', 'enemy_fast_3_0_1.png')
-  .add('sprite079', 'enemy_fast_3_0_1_1.png')
-  .add('sprite080', 'enemy_power_0_0_0_0.png')
-  .add('sprite081', 'enemy_power_0_0_0_1.png')
-  .add('sprite082', 'enemy_power_0_0_1.png')
-  .add('sprite083', 'enemy_power_0_0_1_1.png')
-  .add('sprite084', 'enemy_power_1_0_0_0.png')
-  .add('sprite085', 'enemy_power_1_0_0_1.png')
-  .add('sprite086', 'enemy_power_1_0_1.png')
-  .add('sprite087', 'enemy_power_1_0_1_1.png')
-  .add('sprite088', 'enemy_power_2_0_0_0.png')
-  .add('sprite089', 'enemy_power_2_0_0_1.png')
-  .add('sprite090', 'enemy_power_2_0_1.png')
-  .add('sprite091', 'enemy_power_2_0_1_1.png')
-  .add('sprite092', 'enemy_power_3_0_0_0.png')
-  .add('sprite093', 'enemy_power_3_0_0_1.png')
-  .add('sprite094', 'enemy_power_3_0_1.png')
-  .add('sprite095', 'enemy_power_3_0_1_1.png')
-  .add('sprite096', 'gameOver.png')
-  .add('sprite097', 'logo.png')
-  .add('sprite098', 'powerup_grenade.png')
-  .add('sprite099', 'powerup_helmet.png')
-  .add('sprite100', 'powerup_shovel.png')
-  .add('sprite101', 'powerup_star.png')
-  .add('sprite102', 'powerup_tank.png')
-  .add('sprite103', 'powerup_timer.png')
-  .add('sprite104', 'shield0.png')
-  .add('sprite105', 'shield1.png')
-  .add('sprite106', 'spawn0.png')
-  .add('sprite107', 'spawn1.png')
-  .add('sprite108', 'spawn2.png')
-  .add('sprite109', 'spawn3.png')
-  .add('sprite110', 'steel.png')
-  .add('sprite111', 'tank.png')
-  .add('sprite112', 'tank_0_0_0.png')
-  .add('sprite113', 'tank_0_0_1.png')
-  .add('sprite114', 'tank_0_0_2.png')
-  .add('sprite115', 'tank_0_0_3.png')
-  .add('sprite116', 'tank_0_1_0.png')
-  .add('sprite117', 'tank_0_1_1.png')
-  .add('sprite118', 'tank_0_1_2.png')
-  .add('sprite119', 'tank_0_1_3.png')
-  .add('sprite120', 'tank_1_0_0.png')
-  .add('sprite121', 'tank_1_0_1.png')
-  .add('sprite122', 'tank_1_0_2.png')
-  .add('sprite123', 'tank_1_0_3.png')
-  .add('sprite124', 'tank_1_1_0.png')
-  .add('sprite125', 'tank_1_1_1.png')
-  .add('sprite126', 'tank_1_1_2.png')
-  .add('sprite127', 'tank_1_1_3.png')
-  .add('sprite128', 'tank_2_0_0.png')
-  .add('sprite129', 'tank_2_0_1.png')
-  .add('sprite130', 'tank_2_0_2.png')
-  .add('sprite131', 'tank_2_0_3.png')
-  .add('sprite132', 'tank_2_1_0.png')
-  .add('sprite133', 'tank_2_1_1.png')
-  .add('sprite134', 'tank_2_1_2.png')
-  .add('sprite135', 'tank_2_1_3.png')
-  .add('sprite136', 'tank_3_0_0.png')
-  .add('sprite137', 'tank_3_0_1.png')
-  .add('sprite138', 'tank_3_0_2.png')
-  .add('sprite139', 'tank_3_0_3.png')
-  .add('sprite140', 'tank_3_1_0.png')
-  .add('sprite141', 'tank_3_1_1.png')
-  .add('sprite142', 'tank_3_1_2.png')
-  .add('sprite143', 'tank_3_1_3.png')
-  .add('sprite144', 'trees.png')
-  .add('sprite145', 'wall_brick.png')
-  .add('sprite146', 'wall_steel.png')
-  .add('sprite147', 'water0.png')
-  .add('sprite148', 'water1.png');
-
-app.loader.onProgress.add(showProgress);
-app.loader.onComplete.add(doneLoading);
-app.loader.onError.add(reportError);
-app.loader.load();
-function showProgress(e) {
-  console.log(e.progress);
-}
-function doneLoading(e) {
-  console.log('Done Loading!!');
-  gamestart();
-}
-function reportError(e) {
-  console.error('Error: ' + e.message);
-}
+const gameBoard = new PIXI.Container();
 
 // let shot = false;
-function gamestart() {
-  const gameBoard = new PIXI.Container();
-  let map = new Map();
-  let p2 = new Tank(12, 8, 0, 0);
-  let p1 = new Tank(12, 4, 0, 0),
-    gameLoop1,
-    gameLoop2;
-  let players = [],
-    shields = [];
-  players.push(p1);
-  players.push(p2);
-  // console.log(players);
-  for (let i = 0; i < players.length; i++) {
-    let shield = new Shield(players[i].body.y / 32, players[i].body.x / 32);
-    gameBoard.addChild(shield);
-    shields.push(shield);
-    // setTimeout(() => {
-    //   gameBoard.removeChild(shield);
-    // }, 5000);
-  }
+let map = new Map();
+let p2 = new Tank(12, 8, 0, 0);
+let p1 = new Tank(12, 4, 0, 0),
+  gameLoop1,
+  gameLoop2;
+let players = [];
+let boosters = new Array();
+// let timerused = false;
+let timerused = false;
+players.push(p1);
+players.push(p2);
+// console.log(players);
 
-  app.stage.addChild(map.body);
-  app.stage.addChild(gameBoard);
-  players.forEach((player) => {
-    gameBoard.addChild(player.body);
-  });
-  document.body.appendChild(app.view);
+app.stage.addChild(map.body);
+app.stage.addChild(gameBoard);
+players.forEach((player) => {
+  gameBoard.addChild(player.body);
+});
+document.body.appendChild(app.view);
 
 var keyState = {};
 window.addEventListener(
   'keydown',
   function (e) {
-    
     // if (e.keyCode != 32 && e.which != 32) {
     //   console.log('here');
     //   for (let i = 37; i < 41; i++) keyState[i] = false;
@@ -242,8 +68,7 @@ let new_bot,
   botX = [6, 12, 0];
 
 function botMoveLoop() {
-  if (timerused) 
-    return;
+  if (timerused) return;
   //moves: left, up, right, down
   if (cnt == 70 && bots.length < 4) {
     let spawn = new Spawn(0, botX[choose]);
@@ -265,31 +90,15 @@ function botMoveLoop() {
   let num = 0;
   if (cnt % 10 == 0) {
     bots.forEach((bot) => {
-      if (!bot.freeze) {
-        // console.log(cnt, bot.speed);
-        if (cnt % bot.speed == 0) {
-          bot.move(map, players, bots);
+      let shoot_check = Math.floor(Math.random() * 3);
+      if (shoot_check == 1) {
+        let bullet = bot.fire(num++);
+        if (bullet != null) {
+          bullets.push(bullet);
+          gameBoard.addChild(bullet.body);
         }
-      } else {
-        setTimeout(() => {
-          bot.freeze = 0;
-        }, 5000);
       }
     });
-    // }
-    if (keyState[37]) players[0].move(app.stage, bots, 3, map, shields[0]);
-    if (keyState[38]) players[0].move(app.stage, bots, 0, map, shields[0]);
-    if (keyState[39]) players[0].move(app.stage, bots, 1, map, shields[0]);
-    if (keyState[40]) players[0].move(app.stage, bots, 2, map, shields[0]);
-    if (keyState[65]) players[1].move(app.stage, bots, 3, map, shields[1]);
-    if (keyState[87]) players[1].move(app.stage, bots, 0, map, shields[1]);
-    if (keyState[68]) players[1].move(app.stage, bots, 1, map, shields[1]);
-    if (keyState[83]) players[1].move(app.stage, bots, 2, map, shields[1]);
-    // else if (keyState[68]) players[1].move(app.stage, bots, 4, map);
-    // else if (keyState[87]) players[1].move(app.stage, bots, 0, map);
-    cnt++;
-    cnt %= 100;
-    // console.log(keyState);
   }
   // if (cnt % 2 == 0) {
   bots.forEach((bot) => {
@@ -315,35 +124,51 @@ function botMoveLoop() {
 function playerMoveLoop() {
   let answer = false;
   if (keyState[37]) {
-    if (players[0].move(app.stage, bots, 3, map, boosters, gameBoard, timerused))
+    if (
+      players[0].move(app.stage, bots, 3, map, boosters, gameBoard, timerused)
+    )
       answer = true;
   }
   if (keyState[38]) {
-    if (players[0].move(app.stage, bots, 0, map, boosters, gameBoard, timerused))
+    if (
+      players[0].move(app.stage, bots, 0, map, boosters, gameBoard, timerused)
+    )
       answer = true;
   }
   if (keyState[39]) {
-    if (players[0].move(app.stage, bots, 1, map, boosters, gameBoard, timerused))
+    if (
+      players[0].move(app.stage, bots, 1, map, boosters, gameBoard, timerused)
+    )
       answer = true;
   }
   if (keyState[40]) {
-    if (players[0].move(app.stage, bots, 2, map, boosters, gameBoard, timerused))
+    if (
+      players[0].move(app.stage, bots, 2, map, boosters, gameBoard, timerused)
+    )
       answer = true;
   }
   if (keyState[65]) {
-    if (players[1].move(app.stage, bots, 3, map, boosters, gameBoard, timerused))
+    if (
+      players[1].move(app.stage, bots, 3, map, boosters, gameBoard, timerused)
+    )
       answer = true;
   }
   if (keyState[87]) {
-    if (players[1].move(app.stage, bots, 0, map, boosters, gameBoard, timerused))
+    if (
+      players[1].move(app.stage, bots, 0, map, boosters, gameBoard, timerused)
+    )
       answer = true;
   }
   if (keyState[68]) {
-    if (players[1].move(app.stage, bots, 1, map, boosters, gameBoard, timerused))
+    if (
+      players[1].move(app.stage, bots, 1, map, boosters, gameBoard, timerused)
+    )
       answer = true;
   }
   if (keyState[83]) {
-    if (players[1].move(app.stage, bots, 2, map, boosters, gameBoard, timerused))
+    if (
+      players[1].move(app.stage, bots, 2, map, boosters, gameBoard, timerused)
+    )
       answer = true;
   }
   console.log(answer);
@@ -387,13 +212,21 @@ function BulletMoveLoop() {
   for (let i = 0; i < bullets.length; i++) {
     let bullet = bullets[i];
     bullet.move();
-    let answer = bullet.collision(app.stage, map, bots, players, bullets, gameBoard, boosters);
+    let answer = bullet.collision(
+      app.stage,
+      map,
+      bots,
+      players,
+      bullets,
+      gameBoard,
+      boosters
+    );
     if (answer[2]) {
       gameOver(gameLoop1, gameLoop2);
       return;
     }
     if (answer[0]) {
-      if (!answer[3]) { 
+      if (!answer[3]) {
         let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
         gameBoard.addChild(explosion);
         setTimeout(() => {
@@ -406,19 +239,7 @@ function BulletMoveLoop() {
       if (bullet.owner.leftBullet > bullet.owner.bulletmax) {
         bullet.owner.leftBullet = bullet.owner.bulletmax;
       }
-      if (answer[0]) {
-        let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
-        gameBoard.addChild(explosion);
-        setTimeout(() => {
-          gameBoard.removeChild(explosion);
-        }, 500);
-        gameBoard.removeChild(bullet.body);
-        // console.log(bullet.owner, bullet.owner.leftBullet, 'to ');
-        bullet.owner.leftBullet++; // ?????
-        if (bullet.owner.leftBullet > bullet.owner.bulletmax) {
-          bullet.owner.leftBullet = bullet.owner.bulletmax;
-        }
-        answer[1][i] = true;
+      answer[1][i] = true;
 
       // console.log(answer[1]);
       let temp = bullet;

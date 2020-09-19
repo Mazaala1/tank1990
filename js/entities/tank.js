@@ -56,7 +56,7 @@ export class Tank {
     return bullet;
   };
 
-  move = (stage, bots, direction, map, boosters, gameBoard) => {
+  move = (stage, bots, direction, map, boosters, gameBoard, shield) => {
     // console.log(Math.round(this.x), Math.round(this.y));
 
     let pastDirection = this.direction;
