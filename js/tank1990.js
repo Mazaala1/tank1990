@@ -4,6 +4,7 @@ import { Tank } from './entities/tank.js';
 import { Spawn } from './entities/spawn.js';
 import { Explosion } from './entities/explosion.js';
 import { Renderer } from './entities/renderer.js';
+import { Boost } from './entities/boost.js'; 
 
 const cellSize = 32,
   width = 13,
@@ -22,6 +23,9 @@ let p1 = new Tank(12, 4, 0, 0),
   gameLoop1,
   gameLoop2;
 let players = [];
+let boosters = new Array;
+// let timerused = false;
+let timerused = false;
 players.push(p1);
 players.push(p2);
 // console.log(players);
@@ -37,6 +41,7 @@ var keyState = {};
 window.addEventListener(
   'keydown',
   function (e) {
+    
     // if (e.keyCode != 32 && e.which != 32) {
     //   console.log('here');
     //   for (let i = 37; i < 41; i++) keyState[i] = false;
@@ -49,6 +54,9 @@ window.addEventListener(
   'keyup',
   function (e) {
     keyState[e.keyCode || e.which] = false;
+    if (e.keyCode == 32 || e.which == 32) players[0].shot = false;
+    if (e.keyCode == 90 || e.which == 90) players[1].shot = false;
+
     // if (e.keyCode == 32 || e.which == 32) shot = false;
   },
   true
@@ -60,7 +68,9 @@ let new_bot,
   bullets = [],
   botX = [6, 12, 0];
 
-function playerMoveLoop() {
+function botMoveLoop() {
+  if (timerused) 
+    return;
   //moves: left, up, right, down
   if (cnt == 70 && bots.length < 4) {
     let spawn = new Spawn(0, botX[choose]);
@@ -106,20 +116,59 @@ function playerMoveLoop() {
     }
   });
   // }
-  if (keyState[37]) players[0].move(app.stage, bots, 3, map);
-  if (keyState[38]) players[0].move(app.stage, bots, 0, map);
-  if (keyState[39]) players[0].move(app.stage, bots, 1, map);
-  if (keyState[40]) players[0].move(app.stage, bots, 2, map);
-  if (keyState[65]) players[1].move(app.stage, bots, 3, map);
-  if (keyState[87]) players[1].move(app.stage, bots, 0, map);
-  if (keyState[68]) players[1].move(app.stage, bots, 1, map);
-  if (keyState[83]) players[1].move(app.stage, bots, 2, map);
   // else if (keyState[68]) players[1].move(app.stage, bots, 4, map);
   // else if (keyState[87]) players[1].move(app.stage, bots, 0, map);
   cnt++;
   cnt %= 100;
   // console.log(keyState);
 }
+
+function playerMoveLoop() {
+  let answer = false;
+  if (keyState[37]) {
+    if (players[0].move(app.stage, bots, 3, map, boosters, gameBoard, timerused))
+      answer = true;
+  }
+  if (keyState[38]) {
+    if (players[0].move(app.stage, bots, 0, map, boosters, gameBoard, timerused))
+      answer = true;
+  }
+  if (keyState[39]) {
+    if (players[0].move(app.stage, bots, 1, map, boosters, gameBoard, timerused))
+      answer = true;
+  }
+  if (keyState[40]) {
+    if (players[0].move(app.stage, bots, 2, map, boosters, gameBoard, timerused))
+      answer = true;
+  }
+  if (keyState[65]) {
+    if (players[1].move(app.stage, bots, 3, map, boosters, gameBoard, timerused))
+      answer = true;
+  }
+  if (keyState[87]) {
+    if (players[1].move(app.stage, bots, 0, map, boosters, gameBoard, timerused))
+      answer = true;
+  }
+  if (keyState[68]) {
+    if (players[1].move(app.stage, bots, 1, map, boosters, gameBoard, timerused))
+      answer = true;
+  }
+  if (keyState[83]) {
+    if (players[1].move(app.stage, bots, 2, map, boosters, gameBoard, timerused))
+      answer = true;
+  }
+  console.log(answer);
+  if (answer) {
+    timerused = answer;
+    setTimeout(() => {
+      timerused = false;
+    }, 5000);
+  }
+}
+
+let gege = new Boost(0, 0);
+boosters.push(gege);
+gameBoard.addChild(gege.body);
 
 function GameOver(inter1, inter2) {
   // clearInterval(inter1);
@@ -129,17 +178,19 @@ function GameOver(inter1, inter2) {
 
 function BulletMoveLoop() {
   // console.log(players[0].shot);
-  if (keyState[32]) {
+  if (keyState[32] && !players[0].shot) {
     // console.log('here');
     let bullet = players[0].fire();
     if (bullet != null) {
+      players[0].shot = true;
       bullets.push(bullet);
       gameBoard.addChild(bullet.body);
     }
   }
-  if (keyState[90]) {
+  if (keyState[90] && !players[1].shot) {
     let bullet = players[1].fire();
     if (bullet != null) {
+      players[1].shot = true;
       bullets.push(bullet);
       gameBoard.addChild(bullet.body);
     }
@@ -147,17 +198,19 @@ function BulletMoveLoop() {
   for (let i = 0; i < bullets.length; i++) {
     let bullet = bullets[i];
     bullet.move();
-    let answer = bullet.collision(app.stage, map, bots, players, bullets);
+    let answer = bullet.collision(app.stage, map, bots, players, bullets, gameBoard, boosters);
     if (answer[2]) {
       gameOver(gameLoop1, gameLoop2);
       return;
     }
     if (answer[0]) {
-      let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
-      gameBoard.addChild(explosion);
-      setTimeout(() => {
-        gameBoard.removeChild(explosion);
-      }, 500);
+      if (!answer[3]) { 
+        let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
+        gameBoard.addChild(explosion);
+        setTimeout(() => {
+          gameBoard.removeChild(explosion);
+        }, 500);
+      }
       gameBoard.removeChild(bullet.body);
       // console.log(bullet.owner, bullet.owner.leftBullet, 'to ');
       bullet.owner.leftBullet++; // ?????
@@ -166,9 +219,6 @@ function BulletMoveLoop() {
       }
       answer[1][i] = true;
 
-      if (bullet.owner === players[0]) {
-        console.log(bullet.owner.leftBullet, '??');
-      }
       // console.log(answer[1]);
       let temp = bullet;
       // if (answer[1] != -1) {
@@ -189,12 +239,12 @@ function BulletMoveLoop() {
     }
   }
 }
-// playerMoveLoop();
-// BulletMoveLoop();
 window.requestAnimationFrame(BulletMoveLoop);
 window.requestAnimationFrame(playerMoveLoop);
+window.requestAnimationFrame(botMoveLoop);
 gameLoop1 = setInterval(BulletMoveLoop, 25);
 gameLoop2 = setInterval(playerMoveLoop, 20);
+gameLoop2 = setInterval(botMoveLoop, 20);
 function gameOver(loop1, loop2) {
   clearInterval(loop1);
   clearInterval(loop2);

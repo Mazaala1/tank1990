@@ -1,4 +1,6 @@
+import { Explosion } from './explosion.js';
 import { Renderer } from './renderer.js';
+import { Boost } from './boost.js';
 export class Bullet {
   constructor(y, x, direction, team, lvl, owner, num) {
     this.num = num;
@@ -28,8 +30,8 @@ export class Bullet {
     this.body.y = this.y * 32 + this.margin;
   };
 
-  collision = (stage, map, bots, players, bullets) => {
-    let answer = [false, new Array(), false];
+  collision = (stage, map, bots, players, bullets, gameBoard, boosters) => {
+    let answer = [false, new Array(), false, false];
     for (let i = 0; i < bullets.length; i++) {
       answer[1].push(false);
     }
@@ -67,13 +69,27 @@ export class Bullet {
             if (this.team == 1) {
               for (let j = 0; j < bots.length; j++) {
                 if (bots[j].body === obstacle) {
+                  if (bots[j].red == 1) {
+                    // generateBoost();
+                    console.log("red killed")
+                    let boost = new Boost(Math.floor(Math.random() *12), Math.floor(Math.random() *12));
+                    gameBoard.addChild(boost.body);
+                    boosters.push(boost);
+                  } 
                   let temp = bots[j];
                   bots[j] = bots[bots.length - 1];
                   bots[bots.length - 1] = temp;
                   bots.pop();
                   j--;
                   board.removeChild(obstacle);
+                  let explosion = new Explosion(obstacle.y / 32, obstacle.x / 32, 'big');
+                  gameBoard.addChild(explosion);
+                  setTimeout(() => {
+                    gameBoard.removeChild(explosion);
+                  }, 500);
                   i--;
+                  //call
+                  answer[3] = true;
                   answer[0] = true;
                 }
               }
@@ -85,17 +101,41 @@ export class Bullet {
               for (let i = 0; i < players.length; i++) {
                 // players.forEach((player) => {
                 if (obstacle === players[i].body) {
-                  players[i].life--;
-                  if (players[i].life > 0) {
-                    players[i].x = x[i];
-                    players[i].y = y[i];
-                  } else {
-                    board.removeChild(obstacle);
-                    players[i].leftBullet = -1;
-                    console.log(players, players.length);
-                  }
-                  // console.log('player', i, players[i].x, players[i].y);
-                  // alert('gege');
+                  if (!players[i].helmet) {
+                    if (players[i].lvl > 0) {
+                      players[i].lvl--;
+                      players[i].body.texture = PIXI.Texture.from(
+                        'assets/' +
+                        'tank' +
+                        '_' +
+                        players[i].direction +
+                        '_' +
+                        players[i].animation +
+                        '_' +
+                        players[i].lvl +
+                        '.png'
+                        );
+                      } else { 
+                        players[i].life--;
+                        if (players[i].life > 0) {
+                          players[i].x = x[i];
+                          players[i].y = y[i];
+                          players[i].body.x = players[i].x * 32;
+                          players[i].body.y = players[i].y * 32;
+                          players[i].helmet = true;
+                          setTimeout(() => {
+                            players[i].helmet = false;
+                          }, 10000);
+                        } else {
+                          board.removeChild(obstacle);
+                          players[i].leftBullet = -1;
+                          console.log(players, players.length);
+                        }
+                      // console.log('player', i, players[i].x, players[i].y);
+                      // alert('gege');
+                       answer[3] = true;
+                      }
+                    }
                   answer[0] = true;
                 }
               }

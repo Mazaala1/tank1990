@@ -1,5 +1,6 @@
 import { Bullet } from './bullet.js';
 import { Renderer } from './renderer.js';
+import { useBoost} from './boost.js';
 
 const players = ['tank', 'tank1'];
 
@@ -7,10 +8,12 @@ export class Tank {
   constructor(y, x, direction, player_index) {
     this.y = y;
     this.x = x;
-    this.lvl = 0;
+    this.lvl = 2;
+    this.helmet = false;
     this.size = 32;
     this.team = 1;
     this.life = 2;
+    this.shot = false;
     // this.shot = false;
     this.bulletmax = 1;
     this.leftBullet = 1;
@@ -53,10 +56,11 @@ export class Tank {
     return bullet;
   };
 
-  move = (stage, bots, direction, map) => {
+  move = (stage, bots, direction, map, boosters, gameBoard) => {
     // console.log(Math.round(this.x), Math.round(this.y));
 
     let pastDirection = this.direction;
+    let returnanswer = false;
     this.direction = direction;
 
     this.body.texture = PIXI.Texture.from(
@@ -129,10 +133,29 @@ export class Tank {
         }
       }
     });
-    if (answer || map.wall(direction, map, this.y, this.x)) return;
+    for (let i = 0; i < boosters.length; i++) {
+      let obstacle = boosters[i].body;
+      if (bulX + 31 > obstacle.x && bulX < obstacle.x + obstacle.width) {
+        if (bulY + 31 > obstacle.y && bulY < obstacle.y + obstacle.height) {
+          if (useBoost(boosters[i], this, bots, stage, gameBoard, map)){
+            returnanswer = true;
+          }
+          gameBoard.removeChild(obstacle);
+          let tmp = boosters[i];
+          boosters[i] = boosters[boosters.length - 1];
+          boosters[boosters.length - 1] = tmp;
+          boosters.pop();
+          i--;
+        } 
+      }
+    }
+    
+    if (answer || map.wall(direction, map, this.y, this.x)) return returnanswer;
     this.y += dirY[direction];
     this.x += dirX[direction];
     this.body.x = this.x * this.size;
     this.body.y = this.y * this.size;
+
+    return returnanswer;
   };
 }

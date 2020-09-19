@@ -11,14 +11,15 @@ export class Bot {
     this.y = y;
     this.x = x;
     this.lvl = 0; //
-    this.red = 0;
+    this.red = Math.floor(Math.floor(Math.random() * 4) / 3);
+    console.log(this.red, "red");
     this.team = 2;
     this.animation = 0; //
     this.bulletmax = 1;
     this.leftBullet = 1;
     this.rotate_freeze = 0;
     this.types = ['basic', 'armor', 'speedd'];
-    this.type = Math.floor(Math.random);
+    this.type = Math.floor(Math.random());
     this.direction = direction;
     this.hp = 1;
     this.type = Math.floor(Math.random() * 3);

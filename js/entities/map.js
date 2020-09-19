@@ -38,6 +38,7 @@ let map = [
 ];
 export class Map {
   constructor() {
+    console.log(map);
     this.map = map;
     this.body = new PIXI.Container();
     let first = true;
@@ -101,4 +102,28 @@ export class Map {
       return false;
     return true;
   };
+
+  renderer = () => {
+    while(this.body.children.length > 0) {
+      this.body.removeChild(this.body.children[0]);
+    }
+    let first = true;
+    for (let i = 0; i < map.length; i++) {
+      for (let j = 0; j < map[i].length; j++) {
+        if (map[i][j] == 1) {
+          let brk = new Brick(i, j);
+          this.body.addChild(brk.body);
+        }
+        if (map[i][j] == 2) {
+          let stl = new Steel(i, j);
+          this.body.addChild(stl.body);
+        }
+        if (map[i][j] == 5 && first) {
+          let base = new Base(i, j);
+          this.body.addChild(base.body);
+          first = false;
+        }
+      }
+    }
+  }
 }

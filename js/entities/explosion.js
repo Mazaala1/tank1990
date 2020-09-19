@@ -18,6 +18,13 @@ export class Explosion {
     explosion.x = x * this.size;
     explosion.width = this.size;
     explosion.height = this.size;
+    if (type == 'bullet') {
+      explosion.y += 4;
+      explosion.x += 4;
+      explosion.width = 24;
+      explosion.height = 24;
+      this.size = 16;
+    }
     this.body = explosion;
     return explosion;
   }
