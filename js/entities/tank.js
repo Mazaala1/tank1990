@@ -1,15 +1,15 @@
-import { Bullet } from './bullet.js';
-import { Renderer } from './renderer.js';
-import { useBoost } from './boost.js';
+import { Bullet } from "./bullet.js";
+import { Renderer } from "./renderer.js";
+import { useBoost } from "./boost.js";
 
-const players = ['tank', 'tank1'];
+const players = ["tank", "tank1"];
 
 export class Tank {
   constructor(y, x, direction, player_index) {
     this.y = y;
     this.x = x;
     this.lvl = 2;
-    this.helmet = false;
+    this.helmet = 5000;
     this.size = 32;
     this.team = 1;
     this.life = 2;
@@ -23,11 +23,11 @@ export class Tank {
     // tank asset detail : tank_{direction}_{animation}_{lvl}
     console.log(
       players[player_index] +
-        '_' +
+        "_" +
         this.direction +
-        '_' +
+        "_" +
         this.animation +
-        '_' +
+        "_" +
         this.lvl
     );
     this.body = Renderer(
@@ -36,11 +36,11 @@ export class Tank {
       y * this.size,
       x * this.size,
       players[player_index] +
-        '_' +
+        "_" +
         this.direction +
-        '_' +
+        "_" +
         this.animation +
-        '_' +
+        "_" +
         this.lvl
     );
   }
@@ -64,15 +64,15 @@ export class Tank {
     this.direction = direction;
 
     this.body.texture = PIXI.Texture.from(
-      'assets/' +
-        'tank' +
-        '_' +
+      "assets/" +
+        "tank" +
+        "_" +
         this.direction +
-        '_' +
+        "_" +
         this.animation +
-        '_' +
+        "_" +
         this.lvl +
-        '.png'
+        ".png"
     );
     // up right down left
     let dirX = [0, 0.1, 0, -0.1],
@@ -94,15 +94,15 @@ export class Tank {
     if (this.changeAnimation) {
       this.animation = (this.animation + 1) % 2;
       this.body.texture = PIXI.Texture.from(
-        'assets/' +
-          'tank' +
-          '_' +
+        "assets/" +
+          "tank" +
+          "_" +
           this.direction +
-          '_' +
+          "_" +
           this.animation +
-          '_' +
+          "_" +
           this.lvl +
-          '.png'
+          ".png"
       );
       this.changeAnimation = false;
     } else {
