@@ -1,8 +1,8 @@
-import { Bullet } from './bullet.js';
-import { Renderer } from './renderer.js';
+import { Bullet } from "./bullet.js";
+import { Renderer } from "./renderer.js";
 
 let speed = [];
-let type = ['fast_', 'armor_', 'basic_'];
+let type = ["fast_", "armor_", "basic_"];
 
 export class Bot {
   constructor(y, x, direction, speed) {
@@ -18,7 +18,7 @@ export class Bot {
     this.bulletmax = 1;
     this.leftBullet = 1;
     this.rotate_freeze = 0;
-    this.types = ['basic', 'armor', 'speedd'];
+    this.types = ["basic", "armor", "fast"];
     this.type = Math.floor(Math.random());
     this.direction = direction;
     this.hp = 1;
@@ -29,7 +29,7 @@ export class Bot {
     if (this.type == 1) {
       this.hp = 2;
     }
-    console.log(this.type, 'type');
+    console.log(this.type, "type");
     // this.spawned = 2;
     // tank asset detail : enemy_{type}_{direction}_{animation}_{lvl}_{red : 1 , not : 0}
 
@@ -38,14 +38,14 @@ export class Bot {
       this.size,
       y * this.size,
       x * this.size,
-      'enemy_' +
+      "enemy_" +
         type[this.type] +
         direction +
-        '_' +
+        "_" +
         this.animation +
-        '_' +
+        "_" +
         this.lvl +
-        '_' +
+        "_" +
         this.red
     );
 
@@ -77,17 +77,17 @@ export class Bot {
     this.direction = rotate;
     // console.log(this.direction, "curretn direction");
     this.body.texture = PIXI.Texture.from(
-      'assets/' +
-        'enemy_' +
+      "assets/" +
+        "enemy_" +
         type[this.type] +
         this.direction +
-        '_' +
+        "_" +
         this.animation +
-        '_' +
+        "_" +
         this.lvl +
-        '_' +
+        "_" +
         this.red +
-        '.png'
+        ".png"
     );
   };
 

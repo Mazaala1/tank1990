@@ -87,25 +87,45 @@ export class Bullet {
                     );
                     gameBoard.addChild(boost.body);
                     boosters.push(boost);
+                    bots[j].red = 0;
                   }
-                  let temp = bots[j];
-                  bots[j] = bots[bots.length - 1];
-                  bots[bots.length - 1] = temp;
-                  bots.pop();
-                  j--;
-                  board.removeChild(obstacle);
-                  let explosion = new Explosion(
-                    obstacle.y / 32,
-                    obstacle.x / 32,
-                    "big"
-                  );
-                  gameBoard.addChild(explosion);
-                  setTimeout(() => {
-                    gameBoard.removeChild(explosion);
-                  }, 500);
-                  i--;
-                  //call
-                  answer[3] = true;
+                  bots[j].hp--;
+                  if (bots[j].hp == 0) {
+                    let temp = bots[j];
+                    bots[j] = bots[bots.length - 1];
+                    bots[bots.length - 1] = temp;
+                    bots.pop();
+                    j--;
+                    board.removeChild(obstacle);
+                    let explosion = new Explosion(
+                      obstacle.y / 32,
+                      obstacle.x / 32,
+                      "big"
+                    );
+                    gameBoard.addChild(explosion);
+                    setTimeout(() => {
+                      gameBoard.removeChild(explosion);
+                    }, 500);
+                    i--;
+                    //call
+                    answer[3] = true;
+                  } else {
+                    bots[j].body.texture = PIXI.Texture.from(
+                      "assets/" +
+                        "enemy" +
+                        "_" +
+                        bots[j].types[bots[j].type] +
+                        "_" +
+                        bots[j].direction +
+                        "_" +
+                        bots[j].animation +
+                        "_" +
+                        bots[j].lvl +
+                        "_" +
+                        bots[j].red +
+                        ".png"
+                    );
+                  }
                   answer[0] = true;
                 }
               }
