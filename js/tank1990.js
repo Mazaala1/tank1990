@@ -1,11 +1,11 @@
-import { Map } from "./entities/map.js";
-import { Bot } from "./entities/bot.js";
-import { Tank } from "./entities/tank.js";
-import { Spawn } from "./entities/spawn.js";
-import { Explosion } from "./entities/explosion.js";
-import { Renderer } from "./entities/renderer.js";
-import { Boost } from "./entities/boost.js";
-import { Shield } from "./entities/shield.js";
+import { Map } from './entities/map.js';
+import { Bot } from './entities/bot.js';
+import { Tank } from './entities/tank.js';
+import { Spawn } from './entities/spawn.js';
+import { Explosion } from './entities/explosion.js';
+import { Renderer } from './entities/renderer.js';
+import { Boost } from './entities/boost.js';
+import { Shield } from './entities/shield.js';
 
 const cellSize = 32,
   width = 13,
@@ -16,156 +16,156 @@ const app = new PIXI.Application({
   backgroundColor: 0x000000,
 });
 
-app.loader.baseUrl = "assets";
+app.loader.baseUrl = 'assets';
 app.loader
-  .add("sprite001", "base.png")
-  .add("sprite002", "base_destroyed.png")
-  .add("sprite003", "big_explosion0.png")
-  .add("sprite004", "big_explosion1.png")
-  .add("sprite005", "big_explosion2.png")
-  .add("sprite006", "big_explosion3.png")
-  .add("sprite007", "big_explosion4.png")
-  .add("sprite008", "brick.png")
-  .add("sprite009", "bullet0.png")
-  .add("sprite010", "bullet1.png")
-  .add("sprite011", "bullet2.png")
-  .add("sprite012", "bullet3.png")
-  .add("sprite013", "bullet_explosion0.png")
-  .add("sprite014", "bullet_explosion1.png")
-  .add("sprite015", "bullet_explosion2.png")
-  .add("sprite016", "enemy_armor_0_0_0_0.png")
-  .add("sprite017", "enemy_armor_0_0_0_1.png")
-  .add("sprite018", "enemy_armor_0_0_1.png")
-  .add("sprite019", "enemy_armor_0_0_1_1.png")
-  .add("sprite020", "enemy_armor_0_1_0_0.png")
-  .add("sprite021", "enemy_armor_0_1_1.png")
-  .add("sprite022", "enemy_armor_0_2_0_0.png")
-  .add("sprite023", "enemy_armor_0_2_1.png")
-  .add("sprite024", "enemy_armor_1_0_0_0.png")
-  .add("sprite025", "enemy_armor_1_0_0_1.png")
-  .add("sprite026", "enemy_armor_1_0_1.png")
-  .add("sprite027", "enemy_armor_1_0_1_1.png")
-  .add("sprite028", "enemy_armor_1_1_0_0.png")
-  .add("sprite029", "enemy_armor_1_1_1.png")
-  .add("sprite030", "enemy_armor_1_2_0_0.png")
-  .add("sprite031", "enemy_armor_1_2_1.png")
-  .add("sprite032", "enemy_armor_2_0_0_0.png")
-  .add("sprite033", "enemy_armor_2_0_0_1.png")
-  .add("sprite034", "enemy_armor_2_0_1.png")
-  .add("sprite035", "enemy_armor_2_0_1_1.png")
-  .add("sprite036", "enemy_armor_2_1_0_0.png")
-  .add("sprite037", "enemy_armor_2_1_1.png")
-  .add("sprite038", "enemy_armor_2_2_0_0.png")
-  .add("sprite039", "enemy_armor_2_2_1.png")
-  .add("sprite040", "enemy_armor_3_0_0_0.png")
-  .add("sprite041", "enemy_armor_3_0_0_1.png")
-  .add("sprite042", "enemy_armor_3_0_1.png")
-  .add("sprite043", "enemy_armor_3_0_1_1.png")
-  .add("sprite044", "enemy_armor_3_1_0_0.png")
-  .add("sprite045", "enemy_armor_3_1_1.png")
-  .add("sprite046", "enemy_armor_3_2_0_0.png")
-  .add("sprite047", "enemy_armor_3_2_1.png")
-  .add("sprite048", "enemy_basic_0_0_0_0.png")
-  .add("sprite049", "enemy_basic_0_0_0_1.png")
-  .add("sprite050", "enemy_basic_0_0_1.png")
-  .add("sprite051", "enemy_basic_0_0_1_1.png")
-  .add("sprite052", "enemy_basic_1_0_0_0.png")
-  .add("sprite053", "enemy_basic_1_0_0_1.png")
-  .add("sprite054", "enemy_basic_1_0_1.png")
-  .add("sprite055", "enemy_basic_1_0_1_1.png")
-  .add("sprite056", "enemy_basic_2_0_0_0.png")
-  .add("sprite057", "enemy_basic_2_0_0_1.png")
-  .add("sprite058", "enemy_basic_2_0_1.png")
-  .add("sprite059", "enemy_basic_2_0_1_1.png")
-  .add("sprite060", "enemy_basic_3_0_0_0.png")
-  .add("sprite061", "enemy_basic_3_0_0_1.png")
-  .add("sprite062", "enemy_basic_3_0_1.png")
-  .add("sprite063", "enemy_basic_3_0_1_1.png")
-  .add("sprite064", "enemy_fast_0_0_0_0.png")
-  .add("sprite065", "enemy_fast_0_0_0_1.png")
-  .add("sprite066", "enemy_fast_0_0_1.png")
-  .add("sprite067", "enemy_fast_0_0_1_1.png")
-  .add("sprite068", "enemy_fast_1_0_0_0.png")
-  .add("sprite069", "enemy_fast_1_0_0_1.png")
-  .add("sprite070", "enemy_fast_1_0_1.png")
-  .add("sprite071", "enemy_fast_1_0_1_1.png")
-  .add("sprite072", "enemy_fast_2_0_0_0.png")
-  .add("sprite073", "enemy_fast_2_0_0_1.png")
-  .add("sprite074", "enemy_fast_2_0_1.png")
-  .add("sprite075", "enemy_fast_2_0_1_1.png")
-  .add("sprite076", "enemy_fast_3_0_0_0.png")
-  .add("sprite077", "enemy_fast_3_0_0_1.png")
-  .add("sprite078", "enemy_fast_3_0_1.png")
-  .add("sprite079", "enemy_fast_3_0_1_1.png")
-  .add("sprite080", "enemy_power_0_0_0_0.png")
-  .add("sprite081", "enemy_power_0_0_0_1.png")
-  .add("sprite082", "enemy_power_0_0_1.png")
-  .add("sprite083", "enemy_power_0_0_1_1.png")
-  .add("sprite084", "enemy_power_1_0_0_0.png")
-  .add("sprite085", "enemy_power_1_0_0_1.png")
-  .add("sprite086", "enemy_power_1_0_1.png")
-  .add("sprite087", "enemy_power_1_0_1_1.png")
-  .add("sprite088", "enemy_power_2_0_0_0.png")
-  .add("sprite089", "enemy_power_2_0_0_1.png")
-  .add("sprite090", "enemy_power_2_0_1.png")
-  .add("sprite091", "enemy_power_2_0_1_1.png")
-  .add("sprite092", "enemy_power_3_0_0_0.png")
-  .add("sprite093", "enemy_power_3_0_0_1.png")
-  .add("sprite094", "enemy_power_3_0_1.png")
-  .add("sprite095", "enemy_power_3_0_1_1.png")
-  .add("sprite096", "gameOver.png")
-  .add("sprite097", "logo.png")
-  .add("sprite098", "powerup_grenade.png")
-  .add("sprite099", "powerup_helmet.png")
-  .add("sprite100", "powerup_shovel.png")
-  .add("sprite101", "powerup_star.png")
-  .add("sprite102", "powerup_tank.png")
-  .add("sprite103", "powerup_timer.png")
-  .add("sprite104", "shield0.png")
-  .add("sprite105", "shield1.png")
-  .add("sprite106", "spawn0.png")
-  .add("sprite107", "spawn1.png")
-  .add("sprite108", "spawn2.png")
-  .add("sprite109", "spawn3.png")
-  .add("sprite110", "steel.png")
-  .add("sprite111", "tank.png")
-  .add("sprite112", "tank_0_0_0.png")
-  .add("sprite113", "tank_0_0_1.png")
-  .add("sprite114", "tank_0_0_2.png")
-  .add("sprite115", "tank_0_0_3.png")
-  .add("sprite116", "tank_0_1_0.png")
-  .add("sprite117", "tank_0_1_1.png")
-  .add("sprite118", "tank_0_1_2.png")
-  .add("sprite119", "tank_0_1_3.png")
-  .add("sprite120", "tank_1_0_0.png")
-  .add("sprite121", "tank_1_0_1.png")
-  .add("sprite122", "tank_1_0_2.png")
-  .add("sprite123", "tank_1_0_3.png")
-  .add("sprite124", "tank_1_1_0.png")
-  .add("sprite125", "tank_1_1_1.png")
-  .add("sprite126", "tank_1_1_2.png")
-  .add("sprite127", "tank_1_1_3.png")
-  .add("sprite128", "tank_2_0_0.png")
-  .add("sprite129", "tank_2_0_1.png")
-  .add("sprite130", "tank_2_0_2.png")
-  .add("sprite131", "tank_2_0_3.png")
-  .add("sprite132", "tank_2_1_0.png")
-  .add("sprite133", "tank_2_1_1.png")
-  .add("sprite134", "tank_2_1_2.png")
-  .add("sprite135", "tank_2_1_3.png")
-  .add("sprite136", "tank_3_0_0.png")
-  .add("sprite137", "tank_3_0_1.png")
-  .add("sprite138", "tank_3_0_2.png")
-  .add("sprite139", "tank_3_0_3.png")
-  .add("sprite140", "tank_3_1_0.png")
-  .add("sprite141", "tank_3_1_1.png")
-  .add("sprite142", "tank_3_1_2.png")
-  .add("sprite143", "tank_3_1_3.png")
-  .add("sprite144", "trees.png")
-  .add("sprite145", "wall_brick.png")
-  .add("sprite146", "wall_steel.png")
-  .add("sprite147", "water0.png")
-  .add("sprite148", "water1.png");
+  .add('sprite001', 'base.png')
+  .add('sprite002', 'base_destroyed.png')
+  .add('sprite003', 'big_explosion0.png')
+  .add('sprite004', 'big_explosion1.png')
+  .add('sprite005', 'big_explosion2.png')
+  .add('sprite006', 'big_explosion3.png')
+  .add('sprite007', 'big_explosion4.png')
+  .add('sprite008', 'brick.png')
+  .add('sprite009', 'bullet0.png')
+  .add('sprite010', 'bullet1.png')
+  .add('sprite011', 'bullet2.png')
+  .add('sprite012', 'bullet3.png')
+  .add('sprite013', 'bullet_explosion0.png')
+  .add('sprite014', 'bullet_explosion1.png')
+  .add('sprite015', 'bullet_explosion2.png')
+  .add('sprite016', 'enemy_armor_0_0_0_0.png')
+  .add('sprite017', 'enemy_armor_0_0_0_1.png')
+  .add('sprite018', 'enemy_armor_0_0_1.png')
+  .add('sprite019', 'enemy_armor_0_0_1_1.png')
+  .add('sprite020', 'enemy_armor_0_1_0_0.png')
+  .add('sprite021', 'enemy_armor_0_1_1.png')
+  .add('sprite022', 'enemy_armor_0_2_0_0.png')
+  .add('sprite023', 'enemy_armor_0_2_1.png')
+  .add('sprite024', 'enemy_armor_1_0_0_0.png')
+  .add('sprite025', 'enemy_armor_1_0_0_1.png')
+  .add('sprite026', 'enemy_armor_1_0_1.png')
+  .add('sprite027', 'enemy_armor_1_0_1_1.png')
+  .add('sprite028', 'enemy_armor_1_1_0_0.png')
+  .add('sprite029', 'enemy_armor_1_1_1.png')
+  .add('sprite030', 'enemy_armor_1_2_0_0.png')
+  .add('sprite031', 'enemy_armor_1_2_1.png')
+  .add('sprite032', 'enemy_armor_2_0_0_0.png')
+  .add('sprite033', 'enemy_armor_2_0_0_1.png')
+  .add('sprite034', 'enemy_armor_2_0_1.png')
+  .add('sprite035', 'enemy_armor_2_0_1_1.png')
+  .add('sprite036', 'enemy_armor_2_1_0_0.png')
+  .add('sprite037', 'enemy_armor_2_1_1.png')
+  .add('sprite038', 'enemy_armor_2_2_0_0.png')
+  .add('sprite039', 'enemy_armor_2_2_1.png')
+  .add('sprite040', 'enemy_armor_3_0_0_0.png')
+  .add('sprite041', 'enemy_armor_3_0_0_1.png')
+  .add('sprite042', 'enemy_armor_3_0_1.png')
+  .add('sprite043', 'enemy_armor_3_0_1_1.png')
+  .add('sprite044', 'enemy_armor_3_1_0_0.png')
+  .add('sprite045', 'enemy_armor_3_1_1.png')
+  .add('sprite046', 'enemy_armor_3_2_0_0.png')
+  .add('sprite047', 'enemy_armor_3_2_1.png')
+  .add('sprite048', 'enemy_basic_0_0_0_0.png')
+  .add('sprite049', 'enemy_basic_0_0_0_1.png')
+  .add('sprite050', 'enemy_basic_0_0_1.png')
+  .add('sprite051', 'enemy_basic_0_0_1_1.png')
+  .add('sprite052', 'enemy_basic_1_0_0_0.png')
+  .add('sprite053', 'enemy_basic_1_0_0_1.png')
+  .add('sprite054', 'enemy_basic_1_0_1.png')
+  .add('sprite055', 'enemy_basic_1_0_1_1.png')
+  .add('sprite056', 'enemy_basic_2_0_0_0.png')
+  .add('sprite057', 'enemy_basic_2_0_0_1.png')
+  .add('sprite058', 'enemy_basic_2_0_1.png')
+  .add('sprite059', 'enemy_basic_2_0_1_1.png')
+  .add('sprite060', 'enemy_basic_3_0_0_0.png')
+  .add('sprite061', 'enemy_basic_3_0_0_1.png')
+  .add('sprite062', 'enemy_basic_3_0_1.png')
+  .add('sprite063', 'enemy_basic_3_0_1_1.png')
+  .add('sprite064', 'enemy_fast_0_0_0_0.png')
+  .add('sprite065', 'enemy_fast_0_0_0_1.png')
+  .add('sprite066', 'enemy_fast_0_0_1.png')
+  .add('sprite067', 'enemy_fast_0_0_1_1.png')
+  .add('sprite068', 'enemy_fast_1_0_0_0.png')
+  .add('sprite069', 'enemy_fast_1_0_0_1.png')
+  .add('sprite070', 'enemy_fast_1_0_1.png')
+  .add('sprite071', 'enemy_fast_1_0_1_1.png')
+  .add('sprite072', 'enemy_fast_2_0_0_0.png')
+  .add('sprite073', 'enemy_fast_2_0_0_1.png')
+  .add('sprite074', 'enemy_fast_2_0_1.png')
+  .add('sprite075', 'enemy_fast_2_0_1_1.png')
+  .add('sprite076', 'enemy_fast_3_0_0_0.png')
+  .add('sprite077', 'enemy_fast_3_0_0_1.png')
+  .add('sprite078', 'enemy_fast_3_0_1.png')
+  .add('sprite079', 'enemy_fast_3_0_1_1.png')
+  .add('sprite080', 'enemy_power_0_0_0_0.png')
+  .add('sprite081', 'enemy_power_0_0_0_1.png')
+  .add('sprite082', 'enemy_power_0_0_1.png')
+  .add('sprite083', 'enemy_power_0_0_1_1.png')
+  .add('sprite084', 'enemy_power_1_0_0_0.png')
+  .add('sprite085', 'enemy_power_1_0_0_1.png')
+  .add('sprite086', 'enemy_power_1_0_1.png')
+  .add('sprite087', 'enemy_power_1_0_1_1.png')
+  .add('sprite088', 'enemy_power_2_0_0_0.png')
+  .add('sprite089', 'enemy_power_2_0_0_1.png')
+  .add('sprite090', 'enemy_power_2_0_1.png')
+  .add('sprite091', 'enemy_power_2_0_1_1.png')
+  .add('sprite092', 'enemy_power_3_0_0_0.png')
+  .add('sprite093', 'enemy_power_3_0_0_1.png')
+  .add('sprite094', 'enemy_power_3_0_1.png')
+  .add('sprite095', 'enemy_power_3_0_1_1.png')
+  .add('sprite096', 'gameOver.png')
+  .add('sprite097', 'logo.png')
+  .add('sprite098', 'powerup_grenade.png')
+  .add('sprite099', 'powerup_helmet.png')
+  .add('sprite100', 'powerup_shovel.png')
+  .add('sprite101', 'powerup_star.png')
+  .add('sprite102', 'powerup_tank.png')
+  .add('sprite103', 'powerup_timer.png')
+  .add('sprite104', 'shield0.png')
+  .add('sprite105', 'shield1.png')
+  .add('sprite106', 'spawn0.png')
+  .add('sprite107', 'spawn1.png')
+  .add('sprite108', 'spawn2.png')
+  .add('sprite109', 'spawn3.png')
+  .add('sprite110', 'steel.png')
+  .add('sprite111', 'tank.png')
+  .add('sprite112', 'tank_0_0_0.png')
+  .add('sprite113', 'tank_0_0_1.png')
+  .add('sprite114', 'tank_0_0_2.png')
+  .add('sprite115', 'tank_0_0_3.png')
+  .add('sprite116', 'tank_0_1_0.png')
+  .add('sprite117', 'tank_0_1_1.png')
+  .add('sprite118', 'tank_0_1_2.png')
+  .add('sprite119', 'tank_0_1_3.png')
+  .add('sprite120', 'tank_1_0_0.png')
+  .add('sprite121', 'tank_1_0_1.png')
+  .add('sprite122', 'tank_1_0_2.png')
+  .add('sprite123', 'tank_1_0_3.png')
+  .add('sprite124', 'tank_1_1_0.png')
+  .add('sprite125', 'tank_1_1_1.png')
+  .add('sprite126', 'tank_1_1_2.png')
+  .add('sprite127', 'tank_1_1_3.png')
+  .add('sprite128', 'tank_2_0_0.png')
+  .add('sprite129', 'tank_2_0_1.png')
+  .add('sprite130', 'tank_2_0_2.png')
+  .add('sprite131', 'tank_2_0_3.png')
+  .add('sprite132', 'tank_2_1_0.png')
+  .add('sprite133', 'tank_2_1_1.png')
+  .add('sprite134', 'tank_2_1_2.png')
+  .add('sprite135', 'tank_2_1_3.png')
+  .add('sprite136', 'tank_3_0_0.png')
+  .add('sprite137', 'tank_3_0_1.png')
+  .add('sprite138', 'tank_3_0_2.png')
+  .add('sprite139', 'tank_3_0_3.png')
+  .add('sprite140', 'tank_3_1_0.png')
+  .add('sprite141', 'tank_3_1_1.png')
+  .add('sprite142', 'tank_3_1_2.png')
+  .add('sprite143', 'tank_3_1_3.png')
+  .add('sprite144', 'trees.png')
+  .add('sprite145', 'wall_brick.png')
+  .add('sprite146', 'wall_steel.png')
+  .add('sprite147', 'water0.png')
+  .add('sprite148', 'water1.png');
 
 app.loader.onProgress.add(showProgress);
 app.loader.onComplete.add(doneLoading);
@@ -175,11 +175,11 @@ function showProgress(e) {
   console.log(e.progress);
 }
 function doneLoading(e) {
-  console.log("Done Loading!!");
+  console.log('Done Loading!!');
   gamestart();
 }
 function reportError(e) {
-  console.error("Error: " + e.message);
+  console.error('Error: ' + e.message);
 }
 
 function gamestart() {
@@ -215,7 +215,7 @@ function gamestart() {
 
   var keyState = {};
   window.addEventListener(
-    "keydown",
+    'keydown',
     function (e) {
       // if (e.keyCode != 32 && e.which != 32) {
       //   console.log('here');
@@ -226,7 +226,7 @@ function gamestart() {
     true
   );
   window.addEventListener(
-    "keyup",
+    'keyup',
     function (e) {
       keyState[e.keyCode || e.which] = false;
       if (e.keyCode == 32 || e.which == 32) players[0].shot = false;
@@ -239,6 +239,7 @@ function gamestart() {
   let new_bot,
     cnt = 50,
     bots = [],
+    bot_cnt = 5,
     choose = 0,
     bullets = [],
     botX = [6, 12, 0];
@@ -257,7 +258,13 @@ function gamestart() {
       // let speed = Math.floor(Math.random() * 2);
       // speed++;
       // console.log(speed);
+      if (bot_cnt < 0) {
+        gameOver(gameLoop1, gameLoop2, gameLoop3);
+        // game win
+      }
       new_bot = new Bot(0, botX[choose], 2, 2);
+      bot_cnt--;
+
       bots.push(new_bot);
       gameBoard.addChild(new_bot.body);
       choose++;
@@ -486,7 +493,7 @@ function gamestart() {
       }
       if (answer[0]) {
         if (!answer[3]) {
-          let explosion = new Explosion(bullet.y, bullet.x, "bullet");
+          let explosion = new Explosion(bullet.y, bullet.x, 'bullet');
           gameBoard.addChild(explosion);
           setTimeout(() => {
             gameBoard.removeChild(explosion);
@@ -536,7 +543,7 @@ function gamestart() {
       100,
       0,
       (width * cellSize - 200) / 2,
-      "gameOver"
+      'gameOver'
     );
     gameBoard.addChild(gameOverElement);
     app.stage.children.forEach((el) => {
